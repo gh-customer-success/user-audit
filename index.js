@@ -1,21 +1,28 @@
 const core = require('@actions/core');
 const wait = require('./wait');
-
+const { graphql } = require('@octokit/graphql');
+const query = require('./audit.gql');
 
 // most @actions toolkit packages have async methods
 async function run() {
-  try {
-    const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds ...`);
-
-    core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-    await wait(parseInt(ms));
-    core.info((new Date()).toTimeString());
-
-    core.setOutput('time', new Date().toTimeString());
-  } catch (error) {
-    core.setFailed(error.message);
-  }
+  //take the required inputs repo and owner and execute the graphql query audit.gql
+  const repo = core.getInput('repo');
+  const owner = core.getInput('owner');
+  const token = core.getInput('token');
+  const octokit = graphql.defaults({
+    headers: {
+      authorization: `token ${token}`,
+    },
+  });
+  const { repository } = await octokit(query, {
+    owner,
+    repo,
+  });
+  //log the response
+  console.log(repository);
+  //set the output
+  core.setOutput('response', JSON.stringify(repository));
+  
 }
 
 run();

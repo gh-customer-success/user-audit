@@ -9,15 +9,18 @@ async function run() {
   const repo = core.getInput('repo');
   const owner = core.getInput('owner');
   const token = core.getInput('token');
+  console.log(`repo: , owner: , token: `);
   const octokit = graphql.defaults({
     headers: {
-      authorization: `token ${token}`,
+      authorization: `token `,
     },
   });
+  console.log(`octokit: `);
   const { repository } = await octokit(query, {
     owner,
     repo,
   });
+  console.log(`repository: `);
   //log the response
   console.log(repository);
   //set the output

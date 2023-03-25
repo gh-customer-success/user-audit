@@ -31638,6 +31638,7 @@ async function run() {
     },
   });
   console.log(`octokit: `);
+  console.log(`query: ${query}`);
   const { repository } = await octokit(query, {
     owner,
     repo,

@@ -12,6 +12,6 @@ inputs:
   api_token:
     description: 'The API token for authentication'
     required: true
-  runs:
-    using: 'node16'
-    main: 'dist/index.js'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

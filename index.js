@@ -2,7 +2,8 @@ const core = require('@actions/core');
 const { graphql } = require('@octokit/graphql');
 const { gql } = require('graphql-tag');
 const fs = require('fs');
-const query = gql(fs.readFileSync(path.join(__dirname, 'audit.gql'), 'utf8'));
+const path = require('path');
+const query = gql(fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8'));
 
 // most @actions toolkit packages have async methods
 async function run() {

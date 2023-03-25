@@ -31642,6 +31642,7 @@ async function run() {
   const { repository } = await octokit(query, {
     owner,
     repo,
+    affiliation: 'ALL',
   });
 //   console.log(`repository: `);
 //   //log the response

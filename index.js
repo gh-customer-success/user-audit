@@ -1,11 +1,15 @@
 const core = require('@actions/core');
-const wait = require('./wait');
 const { graphql } = require('@octokit/graphql');
-const query = require('./audit.gql');
+const { gql } = require('graphql-tag');
+const fs = require('fs');
+
+const query = gql(fs.readFileSync('./query.gql', 'utf8'));
+
 
 // most @actions toolkit packages have async methods
 async function run() {
-  //take the required inputs repo and owner and execute the graphql query audit.gql
+  try {
+    //take the required inputs repo and owner and execute the graphql query audit.gql
   const repo = core.getInput('repo');
   const owner = core.getInput('owner');
   const token = core.getInput('token');
@@ -20,12 +24,14 @@ async function run() {
     owner,
     repo,
   });
-  console.log(`repository: `);
-  //log the response
-  console.log(repository);
-  //set the output
+//   console.log(`repository: `);
+//   //log the response
+//   console.log(repository);
+//   //set the output
   core.setOutput('response', JSON.stringify(repository));
-  
+  } catch (error) {
+    core.setFailed(error.message);
+  }
 }
 
 run();

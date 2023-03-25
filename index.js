@@ -12,10 +12,10 @@ async function run() {
   const repo = core.getInput('repo');
   const owner = core.getInput('owner');
   const token = core.getInput('api_token');
-  console.log(`repo: , owner: , token: `);
+  console.log(`repo: ${repo}, owner: , token: `);
   const octokit = graphql.defaults({
     headers: {
-      authorization: `api_token `,
+      authorization: `token ${token} `,
     },
   });
   console.log(`octokit: `);

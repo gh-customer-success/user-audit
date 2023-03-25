@@ -31622,8 +31622,7 @@ const { graphql } = __nccwpck_require__(8467);
 const { gql } = __nccwpck_require__(8435);
 const fs = __nccwpck_require__(5747);
 
-const query = gql(fs.readFileSync('./query.gql', 'utf8'));
-
+const query = gql(fs.readFileSync('audit.gql', 'utf8'));
 
 // most @actions toolkit packages have async methods
 async function run() {

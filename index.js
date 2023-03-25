@@ -3,8 +3,7 @@ const { graphql } = require('@octokit/graphql');
 const { gql } = require('graphql-tag');
 const fs = require('fs');
 
-const query = gql(fs.readFileSync('./audit.gql', 'utf8'));
-
+const query = gql(fs.readFileSync('audit.gql', 'utf8'));
 
 // most @actions toolkit packages have async methods
 async function run() {

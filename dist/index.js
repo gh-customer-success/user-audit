@@ -31630,11 +31630,11 @@ async function run() {
     //take the required inputs repo and owner and execute the graphql query audit.gql
   const repo = core.getInput('repo');
   const owner = core.getInput('owner');
-  const token = core.getInput('token');
+  const token = core.getInput('api_token');
   console.log(`repo: , owner: , token: `);
   const octokit = graphql.defaults({
     headers: {
-      authorization: `token `,
+      authorization: `api_token `,
     },
   });
   console.log(`octokit: `);

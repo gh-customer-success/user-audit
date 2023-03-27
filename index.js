@@ -1,35 +1,37 @@
-const core = require('@actions/core');
-const { graphql } = require('@octokit/graphql');
-const { gql } = require('graphql-tag');
-const fs = require('fs');
-const path = require('path');
-const query = fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8');
+import core from '@actions/core';
+import { graphql } from '@octokit/graphql';
+import { gql } from 'graphql-tag';
+import fs from 'fs';
+import path from 'path';
+import query from fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8');
+import { getTeams, getRepos } from './sort-audit.js';
 
 // most @actions toolkit packages have async methods
 async function run() {
   try {
     //take the required inputs repo and owner and execute the graphql query audit.gql
-  const repo = core.getInput('repo');
-  const owner = core.getInput('owner');
-  const token = core.getInput('api_token');
-  console.log(`repo: ${repo}, owner: , token: `);
-  const octokit = graphql.defaults({
-    headers: {
-      authorization: `token ${token} `,
-    },
-  });
-  console.log(`octokit: `);
-  console.log(`query: ${query}`);
-  const { repository, organization } = await octokit(query, {
-    owner,
-    repo,
-    affiliation: 'ALL',
-  });
-//   console.log(`repository: `);
-//   //log the response
-//   console.log(repository);
-//   //set the output
-  core.setOutput('response', JSON.stringify(repository));
+    const repo = core.getInput('repo');
+    const owner = core.getInput('owner');
+    const token = core.getInput('api_token');
+    console.log(`repo: ${repo}, owner: , token: `);
+    const octokit = graphql.defaults({
+      headers: {
+        authorization: `token ${token} `,
+      },
+    });
+    console.log(`octokit: `);
+    console.log(`query: ${query}`);
+    const { data } = await octokit(query, {
+      owner,
+      repo,
+      affiliation: 'ALL',
+    });
+    //call the getTeams function and pass in data
+    const teams = getTeams(data);
+    //call the getRepos function and pass in data
+    const repos = getRepos(data);
+
+    core.setOutput('response', JSON.stringify(teams), JSON.stringify(repos));
   } catch (error) {
     core.setFailed(error.message);
   }

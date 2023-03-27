@@ -1,5 +1,5 @@
 
-   export const getTeams = (response)=>{
+   export const  getTeams = async (response)=>{
         //get the data from the response
         const data = response;
         //create an object with the teams  their members and repositories
@@ -26,7 +26,7 @@
     //   const response = require('./response.json');
 
     //a function that gets all the repositores and returns their collaborators and their permissions
-    export const getRepos = (response)=> {
+    export const getRepos = async (response)=> {
         //get the data from the response
         const data = response;
 

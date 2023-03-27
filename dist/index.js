@@ -7729,7 +7729,7 @@ var external_fs_ = __nccwpck_require__(5747);
 var external_path_ = __nccwpck_require__(5622);
 ;// CONCATENATED MODULE: ./sort-audit.js
 
-   const getTeams = (response)=>{
+   const  getTeams = async (response)=>{
         //get the data from the response
         const data = response;
         //create an object with the teams  their members and repositories
@@ -7756,7 +7756,7 @@ var external_path_ = __nccwpck_require__(5622);
     //   const response = require('./response.json');
 
     //a function that gets all the repositores and returns their collaborators and their permissions
-    const getRepos = (response)=> {
+    const getRepos = async (response)=> {
         //get the data from the response
         const data = response;
 
@@ -7820,10 +7820,11 @@ async function run() {
 
     console.log(`data: ${JSON.stringify(data)}`)
     //call the getTeams function and pass in data
-    const teams = getTeams(data);
+    const teams = await getTeams(data);
+    console.log(`teams: ${JSON.stringify(teams)}`);
     //call the getRepos function and pass in data
-    const repos = getRepos(data);
-
+    const repos = await getRepos(data);
+    
     core.setOutput('teams', JSON.stringify(teams))
     core.setOutput('repos', JSON.stringify(repos));
   } catch (error) {

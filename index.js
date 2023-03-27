@@ -29,10 +29,11 @@ async function run() {
 
     console.log(`data: ${JSON.stringify(data)}`)
     //call the getTeams function and pass in data
-    const teams = getTeams(data);
+    const teams = await getTeams(data);
+    console.log(`teams: ${JSON.stringify(teams)}`);
     //call the getRepos function and pass in data
-    const repos = getRepos(data);
-
+    const repos = await getRepos(data);
+    
     core.setOutput('teams', JSON.stringify(teams))
     core.setOutput('repos', JSON.stringify(repos));
   } catch (error) {

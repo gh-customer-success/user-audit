@@ -7807,7 +7807,7 @@ async function run() {
     });
     console.log(`octokit: `);
     console.log(`query: ${query}`);
-    const { data } = await octokit(query, {
+    const data  = await octokit(query, {
       owner,
       repo,
       affiliation: 'ALL',

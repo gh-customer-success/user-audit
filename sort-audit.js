@@ -7,6 +7,7 @@
         const teamPermissions = {};
         //iterate through the teams
         data.organization.teams.edges.forEach((team) => {
+            console.log(team)
             //get the team name
             const teamName = team.node.name;
 

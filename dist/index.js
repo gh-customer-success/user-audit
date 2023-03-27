@@ -7737,6 +7737,7 @@ var external_path_ = __nccwpck_require__(5622);
         const teamPermissions = {};
         //iterate through the teams
         data.organization.teams.edges.forEach((team) => {
+            console.log(team)
             //get the team name
             const teamName = team.node.name;
 
@@ -7790,8 +7791,7 @@ var external_path_ = __nccwpck_require__(5622);
 
 ;// CONCATENATED MODULE: ./index.js
 
-
-
+ 
 
 
 const query = external_fs_.readFileSync(__nccwpck_require__.ab + "audit.gql", 'utf8');

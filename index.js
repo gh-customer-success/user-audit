@@ -1,6 +1,5 @@
 import core from '@actions/core';
-import { graphql } from '@octokit/graphql';
-import { gql } from 'graphql-tag';
+import { graphql } from '@octokit/graphql'; 
 import * as fs from 'fs';
 import path from 'path';
 const query = fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8');

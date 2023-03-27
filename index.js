@@ -1,9 +1,9 @@
 import core from '@actions/core';
 import { graphql } from '@octokit/graphql';
 import { gql } from 'graphql-tag';
-import fs from 'fs';
+import * as fs from 'fs';
 import path from 'path';
-import query from fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8');
+const query = fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8');
 import { getTeams, getRepos } from './sort-audit.js';
 
 // most @actions toolkit packages have async methods

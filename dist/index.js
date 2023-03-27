@@ -7736,7 +7736,7 @@ var external_path_ = __nccwpck_require__(5622);
         const teams = {};
         const teamPermissions = {};
         //iterate through the teams
-        data.organization.teams.edges.forEach((team) => {
+        data.organization.teams.nodes.forEach((team) => {
             console.log(team)
             //get the team name
             const teamName = team.node.name;

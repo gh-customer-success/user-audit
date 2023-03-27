@@ -18,31 +18,51 @@ query ($owner: String!, $affiliation: CollaboratorAffiliation!, $endCursor: Stri
   # }
 	organization(login: $owner) {
   	teams(first:100, after:$endCursor){
-    edges{
-      node{
+      nodes{
         name
         updatedAt
-         
-        members {
-          edges {
-            node {
+        repositories {
+                edges {
+                  node {
+                    name
+                  }
+                }
+              }
+        members{
+          edges{
+            node{
               login
+              name
               
             }
           }
         }
-        
-        repositories(first:100, after:$endCursor ){
-          
-           edges {
-                permission
-                node {
-                    name
-                }
-            }
-        }
       }
-    }
+#     edges{
+#       node{
+#         name
+#         updatedAt
+         
+#         members {
+#           edges {
+#             node {
+#               login
+              
+#             }
+#           }
+#         }
+        
+#         repositories(first:100, after:$endCursor ){
+          
+#            edges {
+#                 permission
+#                 node {
+#                     name
+#                 }
+#             }
+#         }
+#       }
+#     }
   }
   	repositories(first:100, after:$endCursor){
     edges{

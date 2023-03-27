@@ -18,7 +18,6 @@ query ($owner: String!, $repo: String!, $affiliation: CollaboratorAffiliation!, 
   }
 
 organization(login: $owner) {
- 	
   teams(first:100){
     edges{
       node{
@@ -42,6 +41,24 @@ organization(login: $owner) {
                     name
                 }
             }
+        }
+      }
+    }
+  }
+  repositories(first:100){
+    edges{
+      node{
+        name
+        collaborators(first:100, affiliation:$affiliation){
+          edges{
+            permission
+            node{
+              isEmployee
+              login
+              name
+            }
+          }
+          
         }
       }
     }

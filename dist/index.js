@@ -7819,7 +7819,8 @@ async function run() {
     //call the getRepos function and pass in data
     const repos = getRepos(data);
 
-    core.setOutput('response', JSON.stringify(teams), JSON.stringify(repos));
+    core.setOutput('teams', JSON.stringify(teams))
+    core.setOutput('repos', JSON.stringify(repos));
   } catch (error) {
     core.setFailed(error.message);
   }

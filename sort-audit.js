@@ -1,6 +1,6 @@
 export function getTeams(response) {
     //get the data from the response
-    const data = response.data;
+    const data = response;
     //create an object with the teams  their members and repositories
     const teams = {};
     const teamPermissions={};
@@ -27,7 +27,7 @@ export function getTeams(response) {
   //a function that gets all the repositores and returns their collaborators and their permissions
     export function getRepos(response) {
     //get the data from the response
-    const data = response.data;
+    const data = response;
         
     //create an object with the repositories and their collaborators
     const repos = {};

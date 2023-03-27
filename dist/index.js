@@ -7812,6 +7812,8 @@ async function run() {
       repo,
       affiliation: 'ALL',
     });
+
+    console.log(`data: ${data}`)
     //call the getTeams function and pass in data
     const teams = getTeams(data);
     //call the getRepos function and pass in data

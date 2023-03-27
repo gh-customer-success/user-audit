@@ -19,10 +19,10 @@ export function getTeams(response) {
     }); 
     return teams;
   }
-  import { createRequire } from 'node:module';
-  const require = createRequire(import.meta.url);
+//   import { createRequire } from 'node:module';
+//   const require = createRequire(import.meta.url);
   
-  const response = require('./response.json');
+//   const response = require('./response.json');
 
   //a function that gets all the repositores and returns their collaborators and their permissions
     export function getRepos(response) {
@@ -53,4 +53,3 @@ export function getTeams(response) {
     
     return repos;
     }
-    console.log(JSON.stringify(getTeams(response)));

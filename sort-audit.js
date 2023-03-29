@@ -9,22 +9,22 @@
         data.organization.teams.nodes.forEach((team) => {
             console.log(team)
             //get the team name
-            const teamName = team.node.name;
+            const teamName = team.name;
 
             //get the team members
-            teamPermissions.members = team.node.members.edges.map((member) => member.node.login);
+            teamPermissions.members = team.members.edges.map((member) => member.node.login);
             //get the team repositories
-            teamPermissions.repositories = team.node.repositories.edges.map((repository) => repository.node.name);
+            teamPermissions.repositories = team.repositories.edges.map((repository) => repository.node.name);
 
             //add the team name and members to the teams object
             teams[teamName] = teamPermissions;
         });
         return teams;
     }
-    //   import { createRequire } from 'node:module';
-    //   const require = createRequire(import.meta.url);
+      import { createRequire } from 'node:module';
+      const require = createRequire(import.meta.url);
 
-    //   const response = require('./response.json');
+      const response = require('./response.json');
 
     //a function that gets all the repositores and returns their collaborators and their permissions
     export const getRepos = async (response)=> {
@@ -55,6 +55,6 @@
 
         return repos;
     }
-
+    console.log(JSON.stringify(getTeams(response)));
 export default {getTeams, getRepos};
 

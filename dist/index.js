@@ -7727,6 +7727,8 @@ var dist_node = __nccwpck_require__(8467);
 var external_fs_ = __nccwpck_require__(5747);
 // EXTERNAL MODULE: external "path"
 var external_path_ = __nccwpck_require__(5622);
+;// CONCATENATED MODULE: external "node:module"
+const external_node_module_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:module");
 ;// CONCATENATED MODULE: ./sort-audit.js
 
    const  getTeams = async (response)=>{
@@ -7739,22 +7741,22 @@ var external_path_ = __nccwpck_require__(5622);
         data.organization.teams.nodes.forEach((team) => {
             console.log(team)
             //get the team name
-            const teamName = team.node.name;
+            const teamName = team.name;
 
             //get the team members
-            teamPermissions.members = team.node.members.edges.map((member) => member.node.login);
+            teamPermissions.members = team.members.edges.map((member) => member.node.login);
             //get the team repositories
-            teamPermissions.repositories = team.node.repositories.edges.map((repository) => repository.node.name);
+            teamPermissions.repositories = team.repositories.edges.map((repository) => repository.node.name);
 
             //add the team name and members to the teams object
             teams[teamName] = teamPermissions;
         });
         return teams;
     }
-    //   import { createRequire } from 'node:module';
-    //   const require = createRequire(import.meta.url);
+      ;
+      const sort_audit_require = (0,external_node_module_namespaceObject.createRequire)("file:///Users/rudy750/dev/customer-success/user-audit/sort-audit.js");
 
-    //   const response = require('./response.json');
+      const response = sort_audit_require('./response.json');
 
     //a function that gets all the repositores and returns their collaborators and their permissions
     const getRepos = async (response)=> {
@@ -7785,7 +7787,7 @@ var external_path_ = __nccwpck_require__(5622);
 
         return repos;
     }
-
+    console.log(JSON.stringify(getTeams(response)));
 /* harmony default export */ const sort_audit = ({getTeams, getRepos});
 
 

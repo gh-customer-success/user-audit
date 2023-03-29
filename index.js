@@ -1,5 +1,5 @@
 import core from '@actions/core';
-import { graphql } from '@octokit/graphql'; 
+import { graphql } from '@octokit/graphql';
 import * as fs from 'fs';
 import path from 'path';
 const query = fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8');
@@ -20,7 +20,7 @@ async function run() {
     });
     console.log(`octokit: `);
     console.log(`query: ${query}`);
-    const data  = await octokit(query, {
+    const data = await octokit(query, {
       owner,
       repo,
       affiliation: 'ALL',
@@ -28,11 +28,11 @@ async function run() {
 
     console.log(`data: ${JSON.stringify(data)}`)
     //call the getTeams function and pass in data
-    const teams = await getTeams(data);
+    const teams = getTeams(data);
     console.log(`teams: ${JSON.stringify(teams)}`);
     //call the getRepos function and pass in data
-    const repos = await getRepos(data);
-    
+    const repos = getRepos(data);
+
     core.setOutput('teams', JSON.stringify(teams))
     core.setOutput('repos', JSON.stringify(repos));
   } catch (error) {

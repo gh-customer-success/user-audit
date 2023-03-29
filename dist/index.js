@@ -7727,73 +7727,70 @@ var dist_node = __nccwpck_require__(8467);
 var external_fs_ = __nccwpck_require__(5747);
 // EXTERNAL MODULE: external "path"
 var external_path_ = __nccwpck_require__(5622);
-;// CONCATENATED MODULE: external "node:module"
-const external_node_module_namespaceObject = __WEBPACK_EXTERNAL_createRequire(import.meta.url)("node:module");
 ;// CONCATENATED MODULE: ./sort-audit.js
 
-   const  getTeams = async (response)=>{
-        //get the data from the response
-        const data = response;
-        //create an object with the teams  their members and repositories
-        const teams = {};
-        const teamPermissions = {};
-        //iterate through the teams
-        data.organization.teams.nodes.forEach((team) => {
-            console.log(team)
-            //get the team name
-            const teamName = team.name;
+const getTeams = (response) => {
+    //get the data from the response
+    const data = response;
+    //create an object with the teams  their members and repositories
+    const teams = {};
+    const teamPermissions = {};
+    //iterate through the teams
+    data.organization.teams.nodes.forEach((team) => {
+        //get the team name
+        const teamName = team.name;
 
-            //get the team members
-            teamPermissions.members = team.members.edges.map((member) => member.node.login);
-            //get the team repositories
-            teamPermissions.repositories = team.repositories.edges.map((repository) => repository.node.name);
+        //get the team members 
+        teamPermissions.members = team.members.edges.map((member) => member.node.login);
+        //get the team repositories
+        teamPermissions.repositories = team.repositories.edges.map((repository) => repository.node.name);
 
-            //add the team name and members to the teams object
-            teams[teamName] = teamPermissions;
+        //add the team name and members to the teams object
+        teams[teamName] = teamPermissions;
+    });
+    console.log(teams)
+    return teams;
+}
+//   import { createRequire } from 'node:module';
+//   const require = createRequire(import.meta.url);
+
+//   const response = require('./response.json');
+
+//a function that gets all the repositores and returns their collaborators and their permissions
+const getRepos = (response) => {
+    //get the data from the response
+    const data = response;
+
+    //create an object with the repositories and their collaborators
+    const repos = {};
+    //iterate through the repositories
+    data.organization.repositories.edges.forEach((repo) => {
+        //get the repository name
+        const repoName = repo.node.name;
+        //create an object with the collaborators and their permissions
+        const repoCollaborators = {};
+        //iterate through the collaborators
+        repo.node.collaborators.edges.forEach((collaborator) => {
+            //get the collaborator name
+            const collaboratorName = collaborator.node.login;
+            //get the collaborator permissions
+            const collaboratorPermissions = collaborator.permission;
+            //add the collaborator name and permissions to the collaborators object
+            repoCollaborators[collaboratorName] = collaboratorPermissions;
         });
-        return teams;
+
+        repos[repoName] = repoCollaborators;
     }
-      ;
-      const sort_audit_require = (0,external_node_module_namespaceObject.createRequire)("file:///Users/rudy750/dev/customer-success/user-audit/sort-audit.js");
+    );
 
-      const response = sort_audit_require('./response.json');
-
-    //a function that gets all the repositores and returns their collaborators and their permissions
-    const getRepos = async (response)=> {
-        //get the data from the response
-        const data = response;
-
-        //create an object with the repositories and their collaborators
-        const repos = {};
-        //iterate through the repositories
-        data.organization.repositories.edges.forEach((repo) => {
-            //get the repository name
-            const repoName = repo.node.name;
-            //create an object with the collaborators and their permissions
-            const repoCollaborators = {};
-            //iterate through the collaborators
-            repo.node.collaborators.edges.forEach((collaborator) => {
-                //get the collaborator name
-                const collaboratorName = collaborator.node.login;
-                //get the collaborator permissions
-                const collaboratorPermissions = collaborator.permission;
-                //add the collaborator name and permissions to the collaborators object
-                repoCollaborators[collaboratorName] = collaboratorPermissions;
-            });
-
-            repos[repoName] = repoCollaborators;
-        }
-        );
-
-        return repos;
-    }
-    console.log(JSON.stringify(getTeams(response)));
-/* harmony default export */ const sort_audit = ({getTeams, getRepos});
+    return repos;
+}
+/* harmony default export */ const sort_audit = ({ getTeams, getRepos });
 
 
 ;// CONCATENATED MODULE: ./index.js
 
- 
+
 
 
 const query = external_fs_.readFileSync(__nccwpck_require__.ab + "audit.gql", 'utf8');
@@ -7814,7 +7811,7 @@ async function run() {
     });
     console.log(`octokit: `);
     console.log(`query: ${query}`);
-    const data  = await octokit(query, {
+    const data = await octokit(query, {
       owner,
       repo,
       affiliation: 'ALL',
@@ -7822,11 +7819,11 @@ async function run() {
 
     console.log(`data: ${JSON.stringify(data)}`)
     //call the getTeams function and pass in data
-    const teams = await getTeams(data);
+    const teams = getTeams(data);
     console.log(`teams: ${JSON.stringify(teams)}`);
     //call the getRepos function and pass in data
-    const repos = await getRepos(data);
-    
+    const repos = getRepos(data);
+
     core.setOutput('teams', JSON.stringify(teams))
     core.setOutput('repos', JSON.stringify(repos));
   } catch (error) {

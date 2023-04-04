@@ -7540,14 +7540,6 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 9346:
-/***/ ((module) => {
-
-module.exports = eval("require")("@actions/artifact");
-
-
-/***/ }),
-
 /***/ 2877:
 /***/ ((module) => {
 
@@ -8534,15 +8526,12 @@ const stringify = function(){
 // export default stringify
 
 
-// EXTERNAL MODULE: ./node_modules/@vercel/ncc/dist/ncc/@@notfound.js?@actions/artifact
-var _notfound_actions_artifact = __nccwpck_require__(9346);
 ;// CONCATENATED MODULE: ./create-csv.js
 
 // Require the csv module
 
-
-
-
+// import core from '@actions/core';
+// import { Artifact } from '@actions/artifact';
 
 // let response;
 // fs.readFile('./response.json', 'utf8', (err, data) => {
@@ -8559,26 +8548,26 @@ const teamsCSV = (teams) => {
         columns: ['team', 'user', 'repo', 'permission']
     }, function (err, output) {
         console.log(output);
-        uploadCSV(teams);
+        // uploadCSV(teams);
     })
     
 };
 
 
-const uploadCSV = async (csv) => {
-    try {
+// const uploadCSV = async (csv) => {
+//     try {
 
-        // Create the artifact
-        const artifact = new _notfound_actions_artifact.Artifact('my-artifact');
-        artifact.addBuffer(Buffer.from(csv), 'teams-audit.csv');
-        await artifact.upload();
+//         // Create the artifact
+//         const artifact = new Artifact('my-artifact');
+//         artifact.addBuffer(Buffer.from(csv), 'teams-audit.csv');
+//         await artifact.upload();
 
-        // Set the output for the calling workflow
-        core.setOutput('artifact-url', artifact.url);
-    } catch (error) {
-        core.setFailed(error.message);
-    }
-};
+//         // Set the output for the calling workflow
+//         core.setOutput('artifact-url', artifact.url);
+//     } catch (error) {
+//         core.setFailed(error.message);
+//     }
+// };
 
 /* harmony default export */ const create_csv = ({ teamsCSV });
 ;// CONCATENATED MODULE: ./index.js

@@ -1,9 +1,8 @@
 import fs from 'fs';
 // Require the csv module
 import { stringify } from 'csv-stringify';
-import { getTeams } from './sort-audit.js';
-import core from '@actions/core';
-import { Artifact } from '@actions/artifact';
+// import core from '@actions/core';
+// import { Artifact } from '@actions/artifact';
 
 // let response;
 // fs.readFile('./response.json', 'utf8', (err, data) => {
@@ -20,25 +19,25 @@ export const teamsCSV = (teams) => {
         columns: ['team', 'user', 'repo', 'permission']
     }, function (err, output) {
         console.log(output);
-        uploadCSV(teams);
+        // uploadCSV(teams);
     })
     
 };
 
 
-const uploadCSV = async (csv) => {
-    try {
+// const uploadCSV = async (csv) => {
+//     try {
 
-        // Create the artifact
-        const artifact = new Artifact('my-artifact');
-        artifact.addBuffer(Buffer.from(csv), 'teams-audit.csv');
-        await artifact.upload();
+//         // Create the artifact
+//         const artifact = new Artifact('my-artifact');
+//         artifact.addBuffer(Buffer.from(csv), 'teams-audit.csv');
+//         await artifact.upload();
 
-        // Set the output for the calling workflow
-        core.setOutput('artifact-url', artifact.url);
-    } catch (error) {
-        core.setFailed(error.message);
-    }
-};
+//         // Set the output for the calling workflow
+//         core.setOutput('artifact-url', artifact.url);
+//     } catch (error) {
+//         core.setFailed(error.message);
+//     }
+// };
 
 export default { teamsCSV };

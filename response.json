@@ -1,1 +1,247 @@
-{"organization":{"teams":{"nodes":[{"name":"avocado security","updatedAt":"2022-02-13T05:41:31Z","repositories":{"edges":[{"node":{"name":"repo-secure"}},{"node":{"name":"repo-secure-example"}},{"node":{"name":"Private-Repo"}},{"node":{"name":"WebGoat"}},{"node":{"name":"AVerySecureRepo"}},{"node":{"name":"my-secure-repo"}}]},"members":{"edges":[{"node":{"login":"rudy750","name":"Rudy Sarmiento"}},{"node":{"login":"jorgelgmz","name":"Jorge L Gomez"}}]}},{"name":"some other team","updatedAt":"2023-02-03T02:51:02Z","repositories":{"edges":[{"node":{"name":"repo-secure"}}]},"members":{"edges":[{"node":{"login":"rudy750","name":"Rudy Sarmiento"}}]}}]},"repositories":{"edges":[{"node":{"name":"repo-secure","collaborators":{"edges":[{"permission":"ADMIN","node":{"isEmployee":true,"login":"rudy750","name":"Rudy Sarmiento"}},{"permission":"READ","node":{"isEmployee":false,"login":"jorgelgmz","name":"Jorge L Gomez"}}]}}},{"node":{"name":"repo-secure-example","collaborators":{"edges":[{"permission":"ADMIN","node":{"isEmployee":true,"login":"rudy750","name":"Rudy Sarmiento"}},{"permission":"READ","node":{"isEmployee":false,"login":"jorgelgmz","name":"Jorge L Gomez"}}]}}},{"node":{"name":"Private-Repo","collaborators":{"edges":[{"permission":"ADMIN","node":{"isEmployee":true,"login":"rudy750","name":"Rudy Sarmiento"}},{"permission":"READ","node":{"isEmployee":false,"login":"jorgelgmz","name":"Jorge L Gomez"}}]}}},{"node":{"name":"WebGoat","collaborators":{"edges":[{"permission":"ADMIN","node":{"isEmployee":true,"login":"rudy750","name":"Rudy Sarmiento"}},{"permission":"READ","node":{"isEmployee":false,"login":"jorgelgmz","name":"Jorge L Gomez"}}]}}},{"node":{"name":"AVerySecureRepo","collaborators":{"edges":[{"permission":"ADMIN","node":{"isEmployee":true,"login":"rudy750","name":"Rudy Sarmiento"}},{"permission":"READ","node":{"isEmployee":false,"login":"jorgelgmz","name":"Jorge L Gomez"}}]}}},{"node":{"name":"my-secure-repo","collaborators":{"edges":[{"permission":"ADMIN","node":{"isEmployee":true,"login":"rudy750","name":"Rudy Sarmiento"}},{"permission":"READ","node":{"isEmployee":false,"login":"jorgelgmz","name":"Jorge L Gomez"}}]}}}]}}}
+{
+      "organization": {
+        "teams": {
+          "nodes": [
+            {
+              "name": "avocado security",
+              "updatedAt": "2022-02-13T05:41:31Z",
+              "repositories": {
+                "edges": [
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "repo-secure"
+                    }
+                  },
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "repo-secure-example"
+                    }
+                  },
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "Private-Repo"
+                    }
+                  },
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "WebGoat"
+                    }
+                  },
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "AVerySecureRepo"
+                    }
+                  },
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "my-secure-repo"
+                    }
+                  }
+                ]
+              },
+              "members": {
+                "edges": [
+                  {
+                    "node": {
+                      "login": "rudy750",
+                      "name": "Rudy Sarmiento"
+                    }
+                  },
+                  {
+                    "node": {
+                      "login": "jorgelgmz",
+                      "name": "Jorge L Gomez"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "some other team",
+              "updatedAt": "2023-02-03T02:51:02Z",
+              "repositories": {
+                "edges": [
+                  {
+                    "permission": "WRITE",
+                    "node": {
+                      "name": "repo-secure"
+                    }
+                  }
+                ]
+              },
+              "members": {
+                "edges": [
+                  {
+                    "node": {
+                      "login": "rudy750",
+                      "name": "Rudy Sarmiento"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "repositories": {
+          "edges": [
+            {
+              "node": {
+                "name": "repo-secure",
+                "collaborators": {
+                  "edges": [
+                    {
+                      "permission": "ADMIN",
+                      "node": {
+                        "isEmployee": true,
+                        "login": "rudy750",
+                        "name": "Rudy Sarmiento"
+                      }
+                    },
+                    {
+                      "permission": "READ",
+                      "node": {
+                        "isEmployee": false,
+                        "login": "jorgelgmz",
+                        "name": "Jorge L Gomez"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "node": {
+                "name": "repo-secure-example",
+                "collaborators": {
+                  "edges": [
+                    {
+                      "permission": "ADMIN",
+                      "node": {
+                        "isEmployee": true,
+                        "login": "rudy750",
+                        "name": "Rudy Sarmiento"
+                      }
+                    },
+                    {
+                      "permission": "READ",
+                      "node": {
+                        "isEmployee": false,
+                        "login": "jorgelgmz",
+                        "name": "Jorge L Gomez"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "node": {
+                "name": "Private-Repo",
+                "collaborators": {
+                  "edges": [
+                    {
+                      "permission": "ADMIN",
+                      "node": {
+                        "isEmployee": true,
+                        "login": "rudy750",
+                        "name": "Rudy Sarmiento"
+                      }
+                    },
+                    {
+                      "permission": "READ",
+                      "node": {
+                        "isEmployee": false,
+                        "login": "jorgelgmz",
+                        "name": "Jorge L Gomez"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "node": {
+                "name": "WebGoat",
+                "collaborators": {
+                  "edges": [
+                    {
+                      "permission": "ADMIN",
+                      "node": {
+                        "isEmployee": true,
+                        "login": "rudy750",
+                        "name": "Rudy Sarmiento"
+                      }
+                    },
+                    {
+                      "permission": "READ",
+                      "node": {
+                        "isEmployee": false,
+                        "login": "jorgelgmz",
+                        "name": "Jorge L Gomez"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "node": {
+                "name": "AVerySecureRepo",
+                "collaborators": {
+                  "edges": [
+                    {
+                      "permission": "ADMIN",
+                      "node": {
+                        "isEmployee": true,
+                        "login": "rudy750",
+                        "name": "Rudy Sarmiento"
+                      }
+                    },
+                    {
+                      "permission": "READ",
+                      "node": {
+                        "isEmployee": false,
+                        "login": "jorgelgmz",
+                        "name": "Jorge L Gomez"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "node": {
+                "name": "my-secure-repo",
+                "collaborators": {
+                  "edges": [
+                    {
+                      "permission": "ADMIN",
+                      "node": {
+                        "isEmployee": true,
+                        "login": "rudy750",
+                        "name": "Rudy Sarmiento"
+                      }
+                    },
+                    {
+                      "permission": "READ",
+                      "node": {
+                        "isEmployee": false,
+                        "login": "jorgelgmz",
+                        "name": "Jorge L Gomez"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  

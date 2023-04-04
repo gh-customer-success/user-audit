@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import path from 'path';
 const query = fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8');
 import { getTeams, getRepos } from './sort-audit.js';
+import { teamsCSV } from './create-csv.js';
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -32,6 +33,9 @@ async function run() {
     console.log(`teams: ${JSON.stringify(teams)}`);
     //call the getRepos function and pass in data
     const repos = getRepos(data);
+
+    //create the csv and upload it as an artifact
+    teamsCSV(teams);
 
     core.setOutput('teams', JSON.stringify(teams))
     core.setOutput('repos', JSON.stringify(repos));

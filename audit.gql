@@ -23,6 +23,7 @@ query ($owner: String!, $affiliation: CollaboratorAffiliation!, $endCursor: Stri
         updatedAt
         repositories {
                 edges {
+                  permission
                   node {
                     name
                   }

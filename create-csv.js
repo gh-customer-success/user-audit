@@ -1,6 +1,6 @@
 import fs from 'fs';
 // Require the csv module
-import { stringify } from 'csv-stringify/browser/esm';
+import { stringify } from 'csv-stringify';
 import { getTeams } from './sort-audit.js';
 import core from '@actions/core';
 import { Artifact } from '@actions/artifact';

@@ -15270,9 +15270,13 @@ const teamsCSV = (teams) => {
         columns: ['team', 'user', 'repo', 'permission']
     }, function (err, output) {
         console.log(output);
-        uploadCSV(output);
+        external_fs_.writeFile('teams-audit.csv', output, (err) => {
+            if (err) throw err;
+            console.log('File written successfully!');
+            uploadCSV(output);
+        });
     })
-    
+
 };
 
 
@@ -15280,28 +15284,25 @@ const uploadCSV = async (csv) => {
     try {
         const artifactClient = artifact_client/* create */.U();
         // const csv =  fs.readFile('data/teams.csv', 'utf8');
-    
+
         // // Create the artifact
         // const response = await artifactClient.createArtifact({
         //   name: 'teams-audit.csv',
         //   size: Buffer.byteLength(csv),
         //   contentType: 'text/plain'
         // });
-        external_fs_.writeFile('teams-audit.csv', csv, (err) => {
-            if (err) throw err;
-            console.log('File written successfully!');
-          });
+
         // Upload the file contents
         await artifactClient.uploadArtifact({
-          artifactName: 'teams-audit.csv',
-          file: 'data/teams-audit.csv',
-          contentType: 'text/plain'
+            artifactName: 'teams-audit.csv',
+            file: 'data/teams-audit.csv',
+            contentType: 'text/plain'
         });
-    
+
         console.log('Artifact uploaded successfully!');
-      } catch (error) {
+    } catch (error) {
         core.setFailed(error.message);
-      }
+    }
 };
 
 /* harmony default export */ const create_csv = ({ teamsCSV });

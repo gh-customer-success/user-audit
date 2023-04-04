@@ -7756,6 +7756,7 @@ async function run() {
     const owner = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('owner');
     const token = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('api_token');
     console.log(`repo: ${repo}, owner: , token: `);
+    
     const octokit = _octokit_graphql__WEBPACK_IMPORTED_MODULE_5__/* .graphql.defaults */ .BX.defaults({
       headers: {
         authorization: `token ${token} `,

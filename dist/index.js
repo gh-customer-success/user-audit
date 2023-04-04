@@ -15299,8 +15299,8 @@ const uploadCSV = async (csv) => {
         // Upload the file contents
         await artifactClient.uploadArtifact(
             'teams-audit',
-            ['data/teams-audit.csv'],
-            'data'
+            ['teams-audit.csv'],
+            '.'
         );
 
         console.log('Artifact uploaded successfully!');

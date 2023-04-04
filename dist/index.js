@@ -7540,10 +7540,10 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 716:
+/***/ 9346:
 /***/ ((module) => {
 
-module.exports = eval("require")("@actions/github");
+module.exports = eval("require")("@actions/artifact");
 
 
 /***/ }),
@@ -8534,13 +8534,13 @@ const stringify = function(){
 // export default stringify
 
 
-// EXTERNAL MODULE: ./node_modules/@vercel/ncc/dist/ncc/@@notfound.js?@actions/github
-var github = __nccwpck_require__(716);
+// EXTERNAL MODULE: ./node_modules/@vercel/ncc/dist/ncc/@@notfound.js?@actions/artifact
+var artifact = __nccwpck_require__(9346);
 ;// CONCATENATED MODULE: ./create-csv.js
 
 // Require the csv module
 
- 
+
 
 
 // let response;
@@ -8565,28 +8565,28 @@ const teamsCSV = (teams) => {
 
 
 const uploadCSV = async (csv) => {
-//// Create a new artifact client
-const artifactClient = github.getOctokit(core.getInput('github-token')).actions;
-
-// Upload the file as an artifact
-const uploadResponse = await artifactClient.createArtifact({
-  owner: github.context.repo.owner,
-  repo: github.context.repo.repo,
-  name: 'teams-audit.csv',
-  size: Buffer.byteLength(csv),
-  headers: {
-    'content-type': 'text/plain'
-  }
-});
-
-// Upload the file contents
-await artifactClient.uploadArtifact({
-  owner: github.context.repo.owner,
-  repo: github.context.repo.repo,
-  artifact_id: uploadResponse.data.id,
-  file: 'data/teams.csv',
-  content_type: 'text/plain'
-});
+    try {
+        const artifactClient = artifact.create();
+        // const csv =  fs.readFile('data/teams.csv', 'utf8');
+    
+        // Create the artifact
+        const response = await artifactClient.createArtifact({
+          name: 'teams-audit.csv',
+          size: Buffer.byteLength(csv),
+          contentType: 'text/plain'
+        });
+    
+        // Upload the file contents
+        await artifactClient.uploadArtifact({
+          artifactName: response.artifactName,
+          file: 'data/teams-audit.csv',
+          contentType: 'text/plain'
+        });
+    
+        console.log('Artifact uploaded successfully!');
+      } catch (error) {
+        core.setFailed(error.message);
+      }
 };
 
 /* harmony default export */ const create_csv = ({ teamsCSV });

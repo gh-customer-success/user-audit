@@ -15321,7 +15321,7 @@ function generateTeamsString(teams) {
 }
 
 //a function that takes a parameter of teams and generates a count for each permission, generate the permission type from the data that is passed in
-const step_summary_table_generatePermissionsCount = (teams) => {
+const generatePermissionsCount = (teams) => {
   // create a Set to hold the unique permission types
   const permissionTypes = new Set();
 
@@ -15360,7 +15360,7 @@ const step_summary_table_generatePermissionsCount = (teams) => {
   console.log("Permission: " + JSON.stringify(permissionsCount))
   return permissionsCount;
 }
-/* harmony default export */ const step_summary_table = ({generatePermissionsCount: step_summary_table_generatePermissionsCount});
+/* harmony default export */ const step_summary_table = ({generatePermissionsCount});
 ;// CONCATENATED MODULE: ./index.js
 
 

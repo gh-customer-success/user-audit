@@ -1,8 +1,8 @@
 import fs from 'fs';
 // Require the csv module
 import { stringify } from 'csv-stringify';
-// import core from '@actions/core';
-// import { Artifact } from '@actions/artifact';
+import core from '@actions/core'; 
+import github from '@actions/github';
 
 // let response;
 // fs.readFile('./response.json', 'utf8', (err, data) => {
@@ -19,25 +19,35 @@ export const teamsCSV = (teams) => {
         columns: ['team', 'user', 'repo', 'permission']
     }, function (err, output) {
         console.log(output);
-        // uploadCSV(teams);
+        uploadCSV(teams);
     })
     
 };
 
 
-// const uploadCSV = async (csv) => {
-//     try {
+const uploadCSV = async (csv) => {
+//// Create a new artifact client
+const artifactClient = github.getOctokit(core.getInput('github-token')).actions;
 
-//         // Create the artifact
-//         const artifact = new Artifact('my-artifact');
-//         artifact.addBuffer(Buffer.from(csv), 'teams-audit.csv');
-//         await artifact.upload();
+// Upload the file as an artifact
+const uploadResponse = await artifactClient.createArtifact({
+  owner: github.context.repo.owner,
+  repo: github.context.repo.repo,
+  name: 'teams-audit.csv',
+  size: Buffer.byteLength(csv),
+  headers: {
+    'content-type': 'text/plain'
+  }
+});
 
-//         // Set the output for the calling workflow
-//         core.setOutput('artifact-url', artifact.url);
-//     } catch (error) {
-//         core.setFailed(error.message);
-//     }
-// };
+// Upload the file contents
+await artifactClient.uploadArtifact({
+  owner: github.context.repo.owner,
+  repo: github.context.repo.repo,
+  artifact_id: uploadResponse.data.id,
+  file: 'data/teams.csv',
+  content_type: 'text/plain'
+});
+};
 
 export default { teamsCSV };

@@ -30,16 +30,19 @@ const uploadCSV = async (csv) => {
         const artifactClient = artifact.create();
         // const csv =  fs.readFile('data/teams.csv', 'utf8');
     
-        // Create the artifact
-        const response = await artifactClient.createArtifact({
-          name: 'teams-audit.csv',
-          size: Buffer.byteLength(csv),
-          contentType: 'text/plain'
-        });
-    
+        // // Create the artifact
+        // const response = await artifactClient.createArtifact({
+        //   name: 'teams-audit.csv',
+        //   size: Buffer.byteLength(csv),
+        //   contentType: 'text/plain'
+        // });
+        fs.writeFile('data/teams-audit.csv', csv, (err) => {
+            if (err) throw err;
+            console.log('File written successfully!');
+          });
         // Upload the file contents
         await artifactClient.uploadArtifact({
-          artifactName: response.artifactName,
+          artifactName: 'teams-audit.csv',
           file: 'data/teams-audit.csv',
           contentType: 'text/plain'
         });

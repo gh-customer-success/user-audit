@@ -15287,7 +15287,7 @@ const uploadCSV = async (csv) => {
         //   size: Buffer.byteLength(csv),
         //   contentType: 'text/plain'
         // });
-        external_fs_.writeFile('data/teams-audit.csv', csv, (err) => {
+        external_fs_.writeFile('teams-audit.csv', csv, (err) => {
             if (err) throw err;
             console.log('File written successfully!');
           });

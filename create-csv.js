@@ -36,7 +36,7 @@ const uploadCSV = async (csv) => {
         //   size: Buffer.byteLength(csv),
         //   contentType: 'text/plain'
         // });
-        fs.writeFile('data/teams-audit.csv', csv, (err) => {
+        fs.writeFile('teams-audit.csv', csv, (err) => {
             if (err) throw err;
             console.log('File written successfully!');
           });

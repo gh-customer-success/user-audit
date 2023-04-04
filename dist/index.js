@@ -15293,11 +15293,11 @@ const uploadCSV = async (csv) => {
         // });
 
         // Upload the file contents
-        await artifactClient.uploadArtifact({
-            artifactName: 'teams-audit.csv',
-            file: 'data/teams-audit.csv',
-            contentType: 'text/plain'
-        });
+        await artifactClient.uploadArtifact(
+            'teams-audit',
+            ['/data/teams-audit.csv'],
+            '/data'
+        );
 
         console.log('Artifact uploaded successfully!');
     } catch (error) {

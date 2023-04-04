@@ -7540,22 +7540,6 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 7585:
-/***/ ((module) => {
-
-module.exports = eval("require")("./create-csv");
-
-
-/***/ }),
-
-/***/ 8992:
-/***/ ((module) => {
-
-module.exports = eval("require")("./sort-audit");
-
-
-/***/ }),
-
 /***/ 2877:
 /***/ ((module) => {
 
@@ -7734,30 +7718,113 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(2186);
-/* harmony import */ var _octokit_graphql__WEBPACK_IMPORTED_MODULE_5__ = __nccwpck_require__(8467);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(5747);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(5622);
-/* harmony import */ var _sort_audit__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(8992);
-/* harmony import */ var _create_csv__WEBPACK_IMPORTED_MODULE_4__ = __nccwpck_require__(7585);
+
+// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
+var core = __nccwpck_require__(2186);
+// EXTERNAL MODULE: ./node_modules/@octokit/graphql/dist-node/index.js
+var dist_node = __nccwpck_require__(8467);
+// EXTERNAL MODULE: external "fs"
+var external_fs_ = __nccwpck_require__(5747);
+// EXTERNAL MODULE: external "path"
+var external_path_ = __nccwpck_require__(5622);
+;// CONCATENATED MODULE: ./sort-audit.js
+
+const getTeams = (data) => { 
+  // This function takes in an object called 'data' that contains information about teams, members, and repositories.
+
+  const teamObjects = [];
+  // This creates an empty array called 'teamObjects' that will be used to store the new objects that are created.
+   
+  data.organization.teams.nodes.forEach((team) => {
+    // This loops through each team object in the 'nodes' array of the 'teams' property.
+
+    const members = team.members.edges.map((member) => member.node.login);
+    const repos = team.repositories.edges.map((repository) => {
+        return {repo: repository.node.name, permission: repository.permission};
+    });
+    // These create arrays of member logins and repository names for each team.
+
+    members.forEach((member) => {
+      repos.forEach((repo) => {
+        const teamObject = { team: team.name, user: member, repo: repo.repo, permission: repo.permission };
+        // This creates a new object called 'teamObject' that contains the team name, member login, and repository name.
+
+        if (!teamObjects.some((obj) => obj.team === teamObject.team && obj.user === teamObject.user && obj.repo === teamObject.repo && obj.permission === teamObject.permission)) {
+          teamObjects.push(teamObject);
+        }
+        // This checks if the 'teamObjects' array already contains an object with the same team, member, and repository. If not, it adds the 'teamObject' to the array.
+      });
+    });
+  });
+
+  return teamObjects;
+  // This returns the 'teamObjects' array, which should contain an array of objects that represent each combination of team, member, and repository.
+}
+
+
+//a function that gets all the repositores and returns their collaborators and their permissions
+const getRepos = (response) => {
+    //get the data from the response
+    const data = response;
+
+    //create an object with the repositories and their collaborators
+    const repos = {};
+    //iterate through the repositories
+    data.organization.repositories.edges.forEach((repo) => {
+        //get the repository name
+        const repoName = repo.node.name;
+        //create an object with the collaborators and their permissions
+        const repoCollaborators = {};
+        //iterate through the collaborators
+        repo.node.collaborators.edges.forEach((collaborator) => {
+            //get the collaborator name
+            const collaboratorName = collaborator.node.login;
+            //get the collaborator permissions
+            const collaboratorPermissions = collaborator.permission;
+            //add the collaborator name and permissions to the collaborators object
+            repoCollaborators[collaboratorName] = collaboratorPermissions;
+        });
+
+        repos[repoName] = repoCollaborators;
+    }
+    );
+
+    return repos;
+}
+// import { log } from 'node:console';
+// import fs from 'fs';
+// let response;
+//  fs.readFile('./response.json', 'utf8', (err, data) => {
+//   if (err) throw err; 
+   
+//   response = JSON.parse(data);
+// console.log(JSON.stringify(getTeams(response)));
+// });
+
+
+
+/* harmony default export */ const sort_audit = ({ getTeams, getRepos });
+
+
+;// CONCATENATED MODULE: ./index.js
 
 
 
 
-const query = fs__WEBPACK_IMPORTED_MODULE_1__.readFileSync(__nccwpck_require__.ab + "audit.gql", 'utf8');
+const query = external_fs_.readFileSync(__nccwpck_require__.ab + "audit.gql", 'utf8');
 
-
+// import { teamsCSV } from './create-csv';
 
 // most @actions toolkit packages have async methods
 async function run() {
   try {
     //take the required inputs repo and owner and execute the graphql query audit.gql
-    const repo = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('repo');
-    const owner = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('owner');
-    const token = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('api_token');
+    const repo = core.getInput('repo');
+    const owner = core.getInput('owner');
+    const token = core.getInput('api_token');
     console.log(`repo: ${repo}, owner: , token: `);
     
-    const octokit = _octokit_graphql__WEBPACK_IMPORTED_MODULE_5__/* .graphql.defaults */ .BX.defaults({
+    const octokit = dist_node/* graphql.defaults */.BX.defaults({
       headers: {
         authorization: `token ${token} `,
       },
@@ -7772,18 +7839,18 @@ async function run() {
 
     console.log(`data: ${JSON.stringify(data)}`)
     //call the getTeams function and pass in data
-    const teams = (0,_sort_audit__WEBPACK_IMPORTED_MODULE_3__.getTeams)(data);
+    const teams = getTeams(data);
     console.log(`teams: ${JSON.stringify(teams)}`);
     //call the getRepos function and pass in data
-    const repos = (0,_sort_audit__WEBPACK_IMPORTED_MODULE_3__.getRepos)(data);
+    const repos = getRepos(data);
 
     //create the csv and upload it as an artifact
-    (0,_create_csv__WEBPACK_IMPORTED_MODULE_4__.teamsCSV)(teams);
+    // teamsCSV(teams);
 
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('teams', JSON.stringify(teams))
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('repos', JSON.stringify(repos));
+    core.setOutput('teams', JSON.stringify(teams))
+    core.setOutput('repos', JSON.stringify(repos));
   } catch (error) {
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(error.message);
+    core.setFailed(error.message);
   }
 }
 

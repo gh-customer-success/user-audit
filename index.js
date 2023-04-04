@@ -3,8 +3,8 @@ import { graphql } from '@octokit/graphql';
 import * as fs from 'fs';
 import path from 'path';
 const query = fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8');
-import { getTeams, getRepos } from './sort-audit';
-import { teamsCSV } from './create-csv';
+import { getTeams, getRepos } from './sort-audit.js';
+// import { teamsCSV } from './create-csv';
 
 // most @actions toolkit packages have async methods
 async function run() {
@@ -36,7 +36,7 @@ async function run() {
     const repos = getRepos(data);
 
     //create the csv and upload it as an artifact
-    teamsCSV(teams);
+    // teamsCSV(teams);
 
     core.setOutput('teams', JSON.stringify(teams))
     core.setOutput('repos', JSON.stringify(repos));

@@ -15303,6 +15303,64 @@ const uploadCSV = async (file) => {
 
 // Export the teamsCSV function as the default export
 /* harmony default export */ const create_csv = ({ teamsCSV });
+;// CONCATENATED MODULE: ./step-summary-table.js
+
+
+function generateTeamsString(teams) {
+  let teamsString = `
+  | Team | Members |
+  | ---- | ------- |
+  `;
+
+  teams.forEach((team) => {
+    teamsString += `| ${team.name} | | tea`;
+    teamsString += ` ${team.members.join(', ')}\n\n`;
+  });
+
+  return teamsString;
+}
+
+//a function that takes a parameter of teams and generates a count for each permission, generate the permission type from the data that is passed in
+const step_summary_table_generatePermissionsCount = (teams) => {
+  // create a Set to hold the unique permission types
+  const permissionTypes = new Set();
+
+  // iterate through the teams
+  teams.forEach((team) => {
+    // iterate through the repositories
+    team.repositories.forEach((repo) => {
+      // iterate through the collaborators
+      repo.collaborators.forEach((collaborator) => {
+        // add the permission type to the Set
+        permissionTypes.add(collaborator.permission);
+      });
+    });
+  });
+
+  // convert the Set to an array and sort it alphabetically
+  const uniquePermissions = Array.from(permissionTypes).sort();
+
+  // create an object to hold the counts
+  const permissionsCount = {};
+  uniquePermissions.forEach((permission) => {
+    permissionsCount[permission] = 0;
+  });
+
+  // iterate through the teams again
+  teams.forEach((team) => {
+    // iterate through the repositories
+    team.repositories.forEach((repo) => {
+      // iterate through the collaborators
+      repo.collaborators.forEach((collaborator) => {
+        // add to the count for the permission
+        permissionsCount[collaborator.permission] += 1;
+      });
+    });
+  });
+  console.log("Permission: " + JSON.stringify(permissionsCount))
+  return permissionsCount;
+}
+/* harmony default export */ const step_summary_table = ({generatePermissionsCount: step_summary_table_generatePermissionsCount});
 ;// CONCATENATED MODULE: ./index.js
 
 

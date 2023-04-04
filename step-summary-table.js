@@ -15,7 +15,7 @@ function generateTeamsString(teams) {
 }
 
 //a function that takes a parameter of teams and generates a count for each permission, generate the permission type from the data that is passed in
-function generatePermissionsCount(teams) {
+export const generatePermissionsCount = (teams) => {
   // create a Set to hold the unique permission types
   const permissionTypes = new Set();
 
@@ -54,3 +54,4 @@ function generatePermissionsCount(teams) {
   console.log("Permission: " + JSON.stringify(permissionsCount))
   return permissionsCount;
 }
+export default  {generatePermissionsCount};

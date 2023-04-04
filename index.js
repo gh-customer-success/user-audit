@@ -5,7 +5,7 @@ import path from 'path';
 const query = fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8');
 import { getTeams, getRepos } from './sort-audit.js';
 import { teamsCSV } from './create-csv.js';
-
+import { genneratePermissionCount } from './step-summary-table.js';
 // most @actions toolkit packages have async methods
 async function run() {
   try {

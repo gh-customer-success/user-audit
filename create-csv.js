@@ -22,6 +22,10 @@ export const teamsCSV = (teams) => {
         fs.writeFile('teams-audit.csv', output, (err) => {
             if (err) throw err;
             console.log('File written successfully!');
+            fs.readdir('.', (err, files) => {
+                if (err) throw err;
+                console.log(files);
+              });
             uploadCSV(output);
         });
     })
@@ -44,8 +48,8 @@ const uploadCSV = async (csv) => {
         // Upload the file contents
         await artifactClient.uploadArtifact(
             'teams-audit',
-            ['/data/teams-audit.csv'],
-            '/data'
+            ['data/teams-audit.csv'],
+            'data'
         );
 
         console.log('Artifact uploaded successfully!');

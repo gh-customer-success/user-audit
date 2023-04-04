@@ -15273,6 +15273,10 @@ const teamsCSV = (teams) => {
         external_fs_.writeFile('teams-audit.csv', output, (err) => {
             if (err) throw err;
             console.log('File written successfully!');
+            external_fs_.readdir('.', (err, files) => {
+                if (err) throw err;
+                console.log(files);
+              });
             uploadCSV(output);
         });
     })
@@ -15295,8 +15299,8 @@ const uploadCSV = async (csv) => {
         // Upload the file contents
         await artifactClient.uploadArtifact(
             'teams-audit',
-            ['/data/teams-audit.csv'],
-            '/data'
+            ['data/teams-audit.csv'],
+            'data'
         );
 
         console.log('Artifact uploaded successfully!');

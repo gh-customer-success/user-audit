@@ -22,13 +22,14 @@ export const generatePermissionsCount = (teams) => {
   // iterate through the teams
   teams.forEach((team) => {
     // iterate through the repositories
-    team.repositories.forEach((repo) => {
-      // iterate through the collaborators
-      repo.collaborators.forEach((collaborator) => {
-        // add the permission type to the Set
-        permissionTypes.add(collaborator.permission);
-      });
-    });
+    permissionTypes.add(team.permission);
+    // team.repositories.forEach((repo) => {
+    //   // iterate through the collaborators
+    //   repo.collaborators.forEach((collaborator) => {
+    //     // add the permission type to the Set
+    //     permissionTypes.add(collaborator.permission);
+    //   });
+    // });
   });
 
   // convert the Set to an array and sort it alphabetically

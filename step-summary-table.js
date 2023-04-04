@@ -51,6 +51,6 @@ function generatePermissionsCount(teams) {
       });
     });
   });
-
+  console.log("Permission: " + JSON.stringify(permissionsCount))
   return permissionsCount;
 }

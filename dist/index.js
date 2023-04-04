@@ -15270,7 +15270,7 @@ const teamsCSV = (teams) => {
         columns: ['team', 'user', 'repo', 'permission']
     }, function (err, output) {
         console.log(output);
-        uploadCSV(teams);
+        uploadCSV(output);
     })
     
 };

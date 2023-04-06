@@ -1,3 +1,4 @@
+import {jest} from '@jest/globals'
 // Import the fs module for working with the file system
 import fs from 'fs';
 // Require the csv module
@@ -13,15 +14,14 @@ export const teamsCSV = (teams) => {
         header: true,
         columns: ['team', 'user', 'repo', 'permission']
     }, function (err, output) {
-        console.log(output);
+        // console.log(output);
         // Write the CSV string to a file called teams-audit.csv
         fs.writeFile('teams-audit.csv', output, (err) => {
             if (err) throw err;
-            console.log('File written successfully!');
+            // console.log('File written successfully!');
             // Log the files in the current directory to the console
             fs.readdir('.', (err, files) => {
                 if (err) throw err;
-                console.log(files);
             });
             // Call the uploadCSV function to upload the CSV file as an artifact
             uploadCSV('teams-audit');
@@ -30,6 +30,26 @@ export const teamsCSV = (teams) => {
 
 };
 
+export const repoCSV = (repos) => {
+    //convert the repos object to a CSV string using the csv-stringify library
+    stringify(repos, {
+        header: true,
+        columns: ['repo', 'user', 'permission']
+    }, function (err, output) {
+        // console.log(output);
+        // Write the CSV string to a file called teams-audit.csv
+        fs.writeFile('repo-audit.csv', output, (err) => {
+            if (err) throw err;
+            // console.log('File written successfully!');
+            // Log the files in the current directory to the console
+            fs.readdir('.', (err, files) => {
+                if (err) throw err;
+            });
+            // Call the uploadCSV function to upload the CSV file as an artifact
+            uploadCSV('repo-audit');
+        });
+    });
+}
 // Define the uploadCSV function
 const uploadCSV = async (file) => {
     try {
@@ -48,7 +68,16 @@ const uploadCSV = async (file) => {
         // Set the workflow status to failed if an error occurs
         core.setFailed(error.message);
     }
-};
+}; 
+import { getRepos } from './sort-audit.js';
+// let response;
+//  fs.readFile('./response.json', 'utf8', (err, data) => {
+//   if (err) throw err; 
+   
+//   response = JSON.parse(data);
+//   const repos = getRepos(response);
 
+// console.log(JSON.stringify(repoCSV(repos)));
+// });
 // Export the teamsCSV function as the default export
 export default { teamsCSV };

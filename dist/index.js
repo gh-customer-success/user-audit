@@ -3954,6 +3954,28 @@ exports.checkBypass = checkBypass;
 
 /***/ }),
 
+/***/ 7569:
+/***/ (() => {
+
+"use strict";
+
+
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+
+throw new Error(
+  'Do not import `@jest/globals` outside of the Jest test environment'
+);
+
+
+/***/ }),
+
 /***/ 9440:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -14448,84 +14470,56 @@ var external_fs_ = __nccwpck_require__(5747);
 // EXTERNAL MODULE: external "path"
 var external_path_ = __nccwpck_require__(5622);
 ;// CONCATENATED MODULE: ./sort-audit.js
-
-const getTeams = (data) => { 
-  // This function takes in an object called 'data' that contains information about teams, members, and repositories.
-
+const getTeams = (data) => {
   const teamObjects = [];
-  // This creates an empty array called 'teamObjects' that will be used to store the new objects that are created.
-   
-  data.organization.teams.nodes.forEach((team) => {
-    // This loops through each team object in the 'nodes' array of the 'teams' property.
 
+  data.organization.teams.nodes.forEach((team) => {
     const members = team.members.edges.map((member) => member.node.login);
     const repos = team.repositories.edges.map((repository) => {
-        return {repo: repository.node.name, permission: repository.permission};
+      return { repo: repository.node.name, permission: repository.permission };
     });
-    // These create arrays of member logins and repository names for each team.
 
     members.forEach((member) => {
       repos.forEach((repo) => {
         const teamObject = { team: team.name, user: member, repo: repo.repo, permission: repo.permission };
-        // This creates a new object called 'teamObject' that contains the team name, member login, and repository name.
 
         if (!teamObjects.some((obj) => obj.team === teamObject.team && obj.user === teamObject.user && obj.repo === teamObject.repo && obj.permission === teamObject.permission)) {
           teamObjects.push(teamObject);
         }
-        // This checks if the 'teamObjects' array already contains an object with the same team, member, and repository. If not, it adds the 'teamObject' to the array.
       });
     });
   });
 
   return teamObjects;
-  // This returns the 'teamObjects' array, which should contain an array of objects that represent each combination of team, member, and repository.
-}
+};
 
-
-//a function that gets all the repositores and returns their collaborators and their permissions
 const getRepos = (response) => {
-    //get the data from the response
-    const data = response;
+  const data = response;
+  const repoObjects = [];
 
-    //create an object with the repositories and their collaborators
-    const repos = {};
-    //iterate through the repositories
-    data.organization.repositories.edges.forEach((repo) => {
-        //get the repository name
-        const repoName = repo.node.name;
-        //create an object with the collaborators and their permissions
-        const repoCollaborators = {};
-        //iterate through the collaborators
-        repo.node.collaborators.edges.forEach((collaborator) => {
-            //get the collaborator name
-            const collaboratorName = collaborator.node.login;
-            //get the collaborator permissions
-            const collaboratorPermissions = collaborator.permission;
-            //add the collaborator name and permissions to the collaborators object
-            repoCollaborators[collaboratorName] = collaboratorPermissions;
-        });
+  data.organization.repositories.edges.forEach((repo) => {
+    const repoName = repo.node.name;
 
-        repos[repoName] = repoCollaborators;
-    }
-    );
+    repo.node.collaborators.edges.forEach((collaborator) => {
+      const collaboratorName = collaborator.node.login;
+      const collaboratorPermissions = collaborator.permission;
 
-    return repos;
-}
-// import { log } from 'node:console';
-// import fs from 'fs';
-// let response;
-//  fs.readFile('./response.json', 'utf8', (err, data) => {
-//   if (err) throw err; 
-   
-//   response = JSON.parse(data);
-// console.log(JSON.stringify(getTeams(response)));
-// });
+      const repoObject = {
+        repo: repoName,
+        user: collaboratorName,
+        permission: collaboratorPermissions
+      };
 
+      repoObjects.push(repoObject);
+    });
+  });
 
+  return repoObjects;
+};
 
 /* harmony default export */ const sort_audit = ({ getTeams, getRepos });
-
-
+// EXTERNAL MODULE: ./node_modules/@jest/globals/build/index.js
+var build = __nccwpck_require__(7569);
 // EXTERNAL MODULE: external "stream"
 var external_stream_ = __nccwpck_require__(2413);
 ;// CONCATENATED MODULE: ./node_modules/csv-stringify/lib/api/CsvError.js
@@ -15192,7 +15186,7 @@ class Stringifier extends external_stream_.Transform {
   }
 }
 
-const stringify = function(){
+const lib_stringify = function(){
   let data, options, callback;
   for(const i in arguments){
     const argument = arguments[i];
@@ -15249,6 +15243,7 @@ const stringify = function(){
 // EXTERNAL MODULE: ./node_modules/@actions/artifact/lib/artifact-client.js
 var artifact_client = __nccwpck_require__(2605);
 ;// CONCATENATED MODULE: ./create-csv.js
+
 // Import the fs module for working with the file system
 
 // Require the csv module
@@ -15260,19 +15255,18 @@ var artifact_client = __nccwpck_require__(2605);
 // Export the teamsCSV function
 const teamsCSV = (teams) => {
     // Convert the teams array to a CSV string using the csv-stringify library
-    stringify(teams, {
+    lib_stringify(teams, {
         header: true,
         columns: ['team', 'user', 'repo', 'permission']
     }, function (err, output) {
-        console.log(output);
+        // console.log(output);
         // Write the CSV string to a file called teams-audit.csv
         external_fs_.writeFile('teams-audit.csv', output, (err) => {
             if (err) throw err;
-            console.log('File written successfully!');
+            // console.log('File written successfully!');
             // Log the files in the current directory to the console
             external_fs_.readdir('.', (err, files) => {
                 if (err) throw err;
-                console.log(files);
             });
             // Call the uploadCSV function to upload the CSV file as an artifact
             uploadCSV('teams-audit');
@@ -15281,6 +15275,26 @@ const teamsCSV = (teams) => {
 
 };
 
+const create_csv_repoCSV = (repos) => {
+    //convert the repos object to a CSV string using the csv-stringify library
+    stringify(repos, {
+        header: true,
+        columns: ['repo', 'user', 'permission']
+    }, function (err, output) {
+        // console.log(output);
+        // Write the CSV string to a file called teams-audit.csv
+        fs.writeFile('repo-audit.csv', output, (err) => {
+            if (err) throw err;
+            // console.log('File written successfully!');
+            // Log the files in the current directory to the console
+            fs.readdir('.', (err, files) => {
+                if (err) throw err;
+            });
+            // Call the uploadCSV function to upload the CSV file as an artifact
+            uploadCSV('repo-audit');
+        });
+    });
+}
 // Define the uploadCSV function
 const uploadCSV = async (file) => {
     try {
@@ -15299,8 +15313,17 @@ const uploadCSV = async (file) => {
         // Set the workflow status to failed if an error occurs
         core.setFailed(error.message);
     }
-};
+}; 
 
+// let response;
+//  fs.readFile('./response.json', 'utf8', (err, data) => {
+//   if (err) throw err; 
+   
+//   response = JSON.parse(data);
+//   const repos = getRepos(response);
+
+// console.log(JSON.stringify(repoCSV(repos)));
+// });
 // Export the teamsCSV function as the default export
 /* harmony default export */ const create_csv = ({ teamsCSV });
 ;// CONCATENATED MODULE: ./step-summary-table.js
@@ -15321,21 +15344,21 @@ function generateTeamsString(teams) {
 }
 
 //a function that takes a parameter of teams and generates a count for each permission, generate the permission type from the data that is passed in
-const generatePermissionsCount = (teams) => {
+const generatePermissionsCount = (data) => {
   // create a Set to hold the unique permission types
   const permissionTypes = new Set();
-
+// console.log("teams: \n" + JSON.stringify(data.organization))
   // iterate through the teams
-  teams.forEach((team) => {
+  data.organization.teams.nodes.forEach((team) => {
     // iterate through the repositories
-    permissionTypes.add(team.permission);
-    // team.repositories.forEach((repo) => {
-    //   // iterate through the collaborators
-    //   repo.collaborators.forEach((collaborator) => {
-    //     // add the permission type to the Set
-    //     permissionTypes.add(collaborator.permission);
-    //   });
-    // });
+    // permissionTypes.add(team.permission);
+    team.repositories.edges.forEach((repo) => {
+      // iterate through the collaborators
+      // repo.collaborators.forEach((collaborator) => {
+        // add the permission type to the Set
+        permissionTypes.add(repo.permission);
+      // });
+    });
   });
 
   // convert the Set to an array and sort it alphabetically
@@ -15348,20 +15371,33 @@ const generatePermissionsCount = (teams) => {
   });
 
   // iterate through the teams again
-  teams.forEach((team) => {
+  data.organization.repositories.edges.forEach((repo) => {
     // iterate through the repositories
-    team.repositories.forEach((repo) => {
-      // iterate through the collaborators
-      repo.collaborators.forEach((collaborator) => {
+    // team.repositories.forEach((repo) => {
+    //   // iterate through the collaborators
+      repo.node.collaborators.edges.forEach((collaborator) => {
         // add to the count for the permission
         permissionsCount[collaborator.permission] += 1;
       });
-    });
+    // });
   });
   console.log("Permission: " + JSON.stringify(permissionsCount))
   return permissionsCount;
 }
 /* harmony default export */ const step_summary_table = ({generatePermissionsCount});
+
+
+
+// function testIt(){
+let response;
+ external_fs_.readFile('./response.json', 'utf8', (err, data) => {
+  if (err) throw err; 
+   
+  response = JSON.parse(data);
+ const teams =  getTeams(response);
+  console.log(JSON.stringify(generatePermissionsCount(response)));
+});
+// }
 ;// CONCATENATED MODULE: ./index.js
 
 
@@ -15403,7 +15439,7 @@ async function run() {
 
     //create the csv and upload it as an artifact
     teamsCSV(teams);
-    generatePermissionsCount(teams);
+    repoCSV(repos); 
     core.setOutput('teams', JSON.stringify(teams))
     core.setOutput('repos', JSON.stringify(repos));
   } catch (error) {

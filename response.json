@@ -49,14 +49,14 @@
                 "edges": [
                   {
                     "node": {
-                      "login": "rudy750",
-                      "name": "Rudy Sarmiento"
+                      "login": "userA",
+                      "name": "Joe User"
                     }
                   },
                   {
                     "node": {
-                      "login": "jorgelgmz",
-                      "name": "Jorge L Gomez"
+                      "login": "userB",
+                      "name": "Jane User"
                     }
                   }
                 ]
@@ -79,8 +79,8 @@
                 "edges": [
                   {
                     "node": {
-                      "login": "rudy750",
-                      "name": "Rudy Sarmiento"
+                      "login": "userA",
+                      "name": "Joe User"
                     }
                   }
                 ]
@@ -99,16 +99,16 @@
                       "permission": "ADMIN",
                       "node": {
                         "isEmployee": true,
-                        "login": "rudy750",
-                        "name": "Rudy Sarmiento"
+                        "login": "userA",
+                        "name": "Joe User"
                       }
                     },
                     {
                       "permission": "READ",
                       "node": {
                         "isEmployee": false,
-                        "login": "jorgelgmz",
-                        "name": "Jorge L Gomez"
+                        "login": "userB",
+                        "name": "Jane User"
                       }
                     }
                   ]
@@ -124,16 +124,16 @@
                       "permission": "ADMIN",
                       "node": {
                         "isEmployee": true,
-                        "login": "rudy750",
-                        "name": "Rudy Sarmiento"
+                        "login": "userA",
+                        "name": "Joe User"
                       }
                     },
                     {
                       "permission": "READ",
                       "node": {
                         "isEmployee": false,
-                        "login": "jorgelgmz",
-                        "name": "Jorge L Gomez"
+                        "login": "userB",
+                        "name": "Jane User"
                       }
                     }
                   ]
@@ -149,16 +149,16 @@
                       "permission": "ADMIN",
                       "node": {
                         "isEmployee": true,
-                        "login": "rudy750",
-                        "name": "Rudy Sarmiento"
+                        "login": "userA",
+                        "name": "Joe User"
                       }
                     },
                     {
                       "permission": "READ",
                       "node": {
                         "isEmployee": false,
-                        "login": "jorgelgmz",
-                        "name": "Jorge L Gomez"
+                        "login": "userB",
+                        "name": "Jane User"
                       }
                     }
                   ]
@@ -174,16 +174,16 @@
                       "permission": "ADMIN",
                       "node": {
                         "isEmployee": true,
-                        "login": "rudy750",
-                        "name": "Rudy Sarmiento"
+                        "login": "userA",
+                        "name": "Joe User"
                       }
                     },
                     {
                       "permission": "READ",
                       "node": {
                         "isEmployee": false,
-                        "login": "jorgelgmz",
-                        "name": "Jorge L Gomez"
+                        "login": "userB",
+                        "name": "Jane User"
                       }
                     }
                   ]
@@ -199,16 +199,16 @@
                       "permission": "ADMIN",
                       "node": {
                         "isEmployee": true,
-                        "login": "rudy750",
-                        "name": "Rudy Sarmiento"
+                        "login": "userA",
+                        "name": "Joe User"
                       }
                     },
                     {
                       "permission": "READ",
                       "node": {
                         "isEmployee": false,
-                        "login": "jorgelgmz",
-                        "name": "Jorge L Gomez"
+                        "login": "userB",
+                        "name": "Jane User"
                       }
                     }
                   ]
@@ -224,16 +224,16 @@
                       "permission": "ADMIN",
                       "node": {
                         "isEmployee": true,
-                        "login": "rudy750",
-                        "name": "Rudy Sarmiento"
+                        "login": "userA",
+                        "name": "Joe User"
                       }
                     },
                     {
                       "permission": "READ",
                       "node": {
                         "isEmployee": false,
-                        "login": "jorgelgmz",
-                        "name": "Jorge L Gomez"
+                        "login": "userB",
+                        "name": "Jane User"
                       }
                     }
                   ]

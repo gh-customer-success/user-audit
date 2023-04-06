@@ -38,7 +38,7 @@ async function run() {
 
     //create the csv and upload it as an artifact
     teamsCSV(teams);
-    generatePermissionsCount(teams);
+    repoCSV(repos); 
     core.setOutput('teams', JSON.stringify(teams))
     core.setOutput('repos', JSON.stringify(repos));
   } catch (error) {

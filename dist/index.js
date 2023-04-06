@@ -15251,7 +15251,7 @@ const teamsCSV = (teams) => {
 
 };
 
-const create_csv_repoCSV = (repos) => {
+const repoCSV = (repos) => {
     //convert the repos object to a CSV string using the csv-stringify library
     stringify(repos, {
         header: true,
@@ -15291,7 +15291,7 @@ const uploadCSV = async (file) => {
     }
 }; 
 
-/* harmony default export */ const create_csv = ({ teamsCSV, repoCSV: create_csv_repoCSV, uploadCSV });
+/* harmony default export */ const create_csv = ({ teamsCSV, repoCSV, uploadCSV });
 ;// CONCATENATED MODULE: ./index.js
 
 
@@ -15306,27 +15306,22 @@ async function run() {
     //take the required inputs repo and owner and execute the graphql query audit.gql
     const repo = core.getInput('repo');
     const owner = core.getInput('owner');
-    const token = core.getInput('api_token');
-    console.log(`repo: ${repo}, owner: , token: `);
-    
-    
+    const token = core.getInput('api_token'); 
+
     const octokit = dist_node/* graphql.defaults */.BX.defaults({
       headers: {
         authorization: `token ${token} `,
       },
-    });
-    console.log(`octokit: `);
+    }); 
     console.log(`query: ${query}`);
     const data = await octokit(query, {
       owner,
       repo,
       affiliation: 'ALL',
     });
-
-    console.log(`data: ${JSON.stringify(data)}`)
+ 
     //call the getTeams function and pass in data
-    const teams = getTeams(data);
-    console.log(`teams: ${JSON.stringify(teams)}`);
+    const teams = getTeams(data); 
     //call the getRepos function and pass in data
     const repos = getRepos(data);
 

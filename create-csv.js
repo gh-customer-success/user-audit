@@ -1,4 +1,4 @@
-import {jest} from '@jest/globals'
+
 // Import the fs module for working with the file system
 import fs from 'fs';
 // Require the csv module
@@ -51,7 +51,7 @@ export const repoCSV = (repos) => {
     });
 }
 // Define the uploadCSV function
-const uploadCSV = async (file) => {
+export const uploadCSV = async (file) => {
     try {
         // Create an artifact client using the artifact.create() method
         const artifactClient = artifact.create();
@@ -69,15 +69,5 @@ const uploadCSV = async (file) => {
         core.setFailed(error.message);
     }
 }; 
-import { getRepos } from './sort-audit.js';
-// let response;
-//  fs.readFile('./response.json', 'utf8', (err, data) => {
-//   if (err) throw err; 
-   
-//   response = JSON.parse(data);
-//   const repos = getRepos(response);
 
-// console.log(JSON.stringify(repoCSV(repos)));
-// });
-// Export the teamsCSV function as the default export
-export default { teamsCSV };
+export default { teamsCSV, repoCSV, uploadCSV };

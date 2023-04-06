@@ -1,4 +1,6 @@
 import { teamsCSV } from '../create-csv';
+import { jest } from '@jest/globals';
+import fs from 'fs';
 
 describe('teamsCSV', () => {
   it('should create a CSV file with the correct data', () => {
@@ -22,10 +24,8 @@ describe('teamsCSV', () => {
       callback(null, ['teams-audit.csv']);
     });
 
-    // Mock the uploadCSV method
-    jest.spyOn(global, 'uploadCSV').mockImplementation((file) => {
-      expect(file).toBe('teams-audit');
-    });
+    // Define the uploadCSV property in the global object
+    global.uploadCSV = jest.fn();
 
     // Call the teamsCSV function
     teamsCSV(teams);

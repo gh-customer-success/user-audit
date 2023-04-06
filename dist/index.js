@@ -3954,28 +3954,6 @@ exports.checkBypass = checkBypass;
 
 /***/ }),
 
-/***/ 7569:
-/***/ (() => {
-
-"use strict";
-
-
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-// eslint-disable-next-line @typescript-eslint/no-namespace
-
-throw new Error(
-  'Do not import `@jest/globals` outside of the Jest test environment'
-);
-
-
-/***/ }),
-
 /***/ 9440:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -14518,8 +14496,6 @@ const getRepos = (response) => {
 };
 
 /* harmony default export */ const sort_audit = ({ getTeams, getRepos });
-// EXTERNAL MODULE: ./node_modules/@jest/globals/build/index.js
-var build = __nccwpck_require__(7569);
 // EXTERNAL MODULE: external "stream"
 var external_stream_ = __nccwpck_require__(2413);
 ;// CONCATENATED MODULE: ./node_modules/csv-stringify/lib/api/CsvError.js
@@ -15186,7 +15162,7 @@ class Stringifier extends external_stream_.Transform {
   }
 }
 
-const lib_stringify = function(){
+const stringify = function(){
   let data, options, callback;
   for(const i in arguments){
     const argument = arguments[i];
@@ -15255,7 +15231,7 @@ var artifact_client = __nccwpck_require__(2605);
 // Export the teamsCSV function
 const teamsCSV = (teams) => {
     // Convert the teams array to a CSV string using the csv-stringify library
-    lib_stringify(teams, {
+    stringify(teams, {
         header: true,
         columns: ['team', 'user', 'repo', 'permission']
     }, function (err, output) {
@@ -15283,11 +15259,11 @@ const create_csv_repoCSV = (repos) => {
     }, function (err, output) {
         // console.log(output);
         // Write the CSV string to a file called teams-audit.csv
-        fs.writeFile('repo-audit.csv', output, (err) => {
+        external_fs_.writeFile('repo-audit.csv', output, (err) => {
             if (err) throw err;
             // console.log('File written successfully!');
             // Log the files in the current directory to the console
-            fs.readdir('.', (err, files) => {
+            external_fs_.readdir('.', (err, files) => {
                 if (err) throw err;
             });
             // Call the uploadCSV function to upload the CSV file as an artifact
@@ -15315,17 +15291,7 @@ const uploadCSV = async (file) => {
     }
 }; 
 
-// let response;
-//  fs.readFile('./response.json', 'utf8', (err, data) => {
-//   if (err) throw err; 
-   
-//   response = JSON.parse(data);
-//   const repos = getRepos(response);
-
-// console.log(JSON.stringify(repoCSV(repos)));
-// });
-// Export the teamsCSV function as the default export
-/* harmony default export */ const create_csv = ({ teamsCSV });
+/* harmony default export */ const create_csv = ({ teamsCSV, repoCSV: create_csv_repoCSV, uploadCSV });
 ;// CONCATENATED MODULE: ./step-summary-table.js
 
 

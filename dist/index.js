@@ -15426,7 +15426,7 @@ const getAllData = async(owner, token) => {
 const generateOutputString = async (permissions) => {
 
   //append the key of each obect and its value to the output string
-  const permissionArray = [[{ data: 'Permission', header: true }, { data: 'Total', header: true }]];
+  const permissionArray = [[{ data: 'Permission  ', header: true }, { data: 'Total Users  ', header: true }]];
   //append the key of each object and its value to the output array
   for (var permission in permissions) {
 
@@ -15434,14 +15434,11 @@ const generateOutputString = async (permissions) => {
   }
   console.log(JSON.stringify(permissionArray));
   const summary = JSON.stringify(permissionArray)
-  await core.summary.addHeading('Test Results')
+  await core.summary.addHeading('Audit Summary')
     .addTable(
       permissionArray
     )
     .write()
-
-
-
 }
 
 //a function that takes a parameter of teams and generates a count for each permission, generate the permission type from the data that is passed in

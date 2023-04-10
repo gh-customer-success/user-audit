@@ -15521,7 +15521,7 @@ async function run() {
       // core.setOutput('teams', JSON.stringify(teams))
       core.setOutput('repos', JSON.stringify(repositories));
       //run an echo command to pipe the output of generateOutputString to $GITHUB_STEP_SUMMARY
-      generatePermissionsCount(repos);
+      generatePermissionsCount(repositories);
       
     }).catch((error) => {
       console.error(error);

@@ -15431,10 +15431,11 @@ const generateOutputString = async (permissions) => {
   for (var permission in permissions) {
     permissionArray.push([permission, permissions[permission]]);
   }
-
+  console.log(JSON.stringify(permissionArray));
+  const summary = JSON.stringify(permissionArray)
   await core.summary.addHeading('Test Results')
     .addTable(
-      permissionArray
+      summary
     )
     .write()
 
@@ -15474,7 +15475,7 @@ const generatePermissionsCount = (data) => {
     });
   });
 
-  console.log("Permission: " + generateOutputString(permissionsCount));
+   generateOutputString(permissionsCount);
   return permissionsCount;
 }
 /* harmony default export */ const step_summary_table = ({ generatePermissionsCount, generateOutputString });

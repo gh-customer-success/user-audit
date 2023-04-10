@@ -9,11 +9,12 @@ export const generateOutputString = async (permissions) => {
   for (var permission in permissions) {
     permissionArray.push([permission, permissions[permission]]);
   }
-
+  console.log(JSON.stringify(permissionArray));
+  const summary = JSON.stringify(permissionArray)
   await core.summary
     .addHeading('Test Results')
     .addTable(
-      permissionArray
+      summary
     )
     .write()
 
@@ -53,7 +54,7 @@ export const generatePermissionsCount = (data) => {
     });
   });
 
-  console.log("Permission: " + generateOutputString(permissionsCount));
+   generateOutputString(permissionsCount);
   return permissionsCount;
 }
 export default { generatePermissionsCount, generateOutputString };

@@ -21,15 +21,14 @@ export const getTeams = (data) => {
   return teamObjects;
 };
 
-export const getRepos = (response) => {
-  const data = response;
+export const getRepos = (data) => {  
+  console.log(JSON.stringify(data))
   const repoObjects = [];
+  data.forEach((repo) => {
+    const repoName = repo.name;
 
-  data.organization.repositories.edges.forEach((repo) => {
-    const repoName = repo.node.name;
-
-    repo.node.collaborators.edges.forEach((collaborator) => {
-      const collaboratorName = collaborator.node.login;
+    repo.collaborators.forEach((collaborator) => {
+      const collaboratorName = collaborator.login;
       const collaboratorPermissions = collaborator.permission;
 
       const repoObject = {
@@ -41,8 +40,9 @@ export const getRepos = (response) => {
       repoObjects.push(repoObject);
     });
   });
-
   return repoObjects;
 };
 
+// const data = '[{"name":"repo-secure","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"repo-secure-example","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"Private-Repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"WebGoat","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"AVerySecureRepo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"my-secure-repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"ADMIN"}]}]';
+// console.log(JSON.stringify(getRepos(data)))
 export default { getTeams, getRepos };

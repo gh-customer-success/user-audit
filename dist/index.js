@@ -15433,7 +15433,6 @@ const generateOutputString = async (permissions) => {
   }
 
   await core.summary.addHeading('Test Results')
-    .addCodeBlock(generateTestResults(), "js")
     .addTable([
       [{ data: 'Permission', header: true }, { data: 'Total', header: true }],
       permissionArray

@@ -15435,7 +15435,7 @@ const generateOutputString = async (permissions) => {
   const summary = JSON.stringify(permissionArray)
   await core.summary.addHeading('Test Results')
     .addTable(
-      summary
+      permissionArray
     )
     .write()
 
@@ -15521,7 +15521,7 @@ async function run() {
       // core.setOutput('teams', JSON.stringify(teams))
       core.setOutput('repos', JSON.stringify(repositories));
       //run an echo command to pipe the output of generateOutputString to $GITHUB_STEP_SUMMARY
-      generateOutputString(repos);
+      generatePermissionsCount(repos);
       
     }).catch((error) => {
       console.error(error);

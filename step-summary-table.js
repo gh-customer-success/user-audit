@@ -14,7 +14,7 @@ export const generateOutputString = async (permissions) => {
   await core.summary
     .addHeading('Test Results')
     .addTable(
-      summary
+      permissionArray
     )
     .write()
 

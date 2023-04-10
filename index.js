@@ -6,7 +6,7 @@ const query = fs.readFileSync(path.join(__dirname, './audit.gql'), 'utf8');
 import { getTeams, getRepos } from './sort-audit.js';
 import { teamsCSV, repoCSV } from './create-csv.js';
 import { getAllData } from './get-repository-collaborators.js';
-import { generateOutputString } from './step-summary-table.js';
+import { generatePermissionsCount } from './step-summary-table.js';
 // most @actions toolkit packages have async methods
 async function run() {
   try {
@@ -32,7 +32,7 @@ async function run() {
       // core.setOutput('teams', JSON.stringify(teams))
       core.setOutput('repos', JSON.stringify(repositories));
       //run an echo command to pipe the output of generateOutputString to $GITHUB_STEP_SUMMARY
-      generateOutputString(repos);
+      generatePermissionsCount(repos);
       
     }).catch((error) => {
       console.error(error);

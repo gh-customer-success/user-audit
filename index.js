@@ -26,7 +26,8 @@ async function run() {
 
       //create the csv and upload it as an artifact
       // teamsCSV(teams);
-      repoCSV(repositories);
+      const repos = getRepos(repositories);
+      repoCSV(repos);
       // core.setOutput('teams', JSON.stringify(teams))
       core.setOutput('repos', JSON.stringify(repositories));
     }).catch((error) => {

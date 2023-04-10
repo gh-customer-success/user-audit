@@ -15426,15 +15426,14 @@ const getAllData = async(owner, token) => {
 const generateOutputString = async (permissions) => {
 
   //append the key of each obect and its value to the output string
-  const permissionArray = [['Permission', 'Total']];
+  const permissionArray = [[{ data: 'Permission', header: true }, { data: 'Total', header: true }]];
   //append the key of each object and its value to the output array
   for (var permission in permissions) {
     permissionArray.push([permission, permissions[permission]]);
   }
-
+  
   await core.summary.addHeading('Test Results')
     .addTable([
-      [{ data: 'Permission', header: true }, { data: 'Total', header: true }],
       permissionArray
     ])
     .write()
@@ -15481,7 +15480,11 @@ const generatePermissionsCount = (data) => {
 /* harmony default export */ const step_summary_table = ({ generatePermissionsCount, generateOutputString });
 
 
-
+let data = ` [{"name":"repo-secure","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"repo-secure-example","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"Private-Repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"WebGoat","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"AVerySecureRepo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"my-secure-repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"ADMIN"}]}]
+        `
+  let response = JSON.parse(data);
+  const teams =  getRepos(response);
+  console.log(JSON.stringify(generatePermissionsCount(response)));
 ;// CONCATENATED MODULE: ./index.js
 
 

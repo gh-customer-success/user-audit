@@ -1,34 +1,39 @@
 
+import * as core from '@actions/core'
 
-function generateTeamsString(teams) {
-  let teamsString = `
-  | Team | Members |
-  | ---- | ------- |
-  `;
+export const generateOutputString = async (permissions) => {
 
-  teams.forEach((team) => {
-    teamsString += `| ${team.name} | | tea`;
-    teamsString += ` ${team.members.join(', ')}\n\n`;
-  });
+  //append the key of each obect and its value to the output string
+  const permissionArray = [['Permission', 'Total']];
+  //append the key of each object and its value to the output array
+  for (var permission in permissions) {
+    permissionArray.push([permission, permissions[permission]]);
+  }
 
-  return teamsString;
+  await core.summary
+    .addHeading('Test Results')
+    .addCodeBlock(generateTestResults(), "js")
+    .addTable([
+      [{ data: 'Permission', header: true }, { data: 'Total', header: true }],
+      permissionArray
+    ])
+    .write()
+
+
+
 }
 
 //a function that takes a parameter of teams and generates a count for each permission, generate the permission type from the data that is passed in
 export const generatePermissionsCount = (data) => {
   // create a Set to hold the unique permission types
   const permissionTypes = new Set();
-// console.log("teams: \n" + JSON.stringify(data.organization))
-  // iterate through the teams
-  data.organization.teams.nodes.forEach((team) => {
-    // iterate through the repositories
-    // permissionTypes.add(team.permission);
-    team.repositories.edges.forEach((repo) => {
-      // iterate through the collaborators
-      // repo.collaborators.forEach((collaborator) => {
-        // add the permission type to the Set
-        permissionTypes.add(repo.permission);
-      // });
+
+  // iterate through the repositories
+  data.forEach((repo) => {
+    // iterate through the collaborators
+    repo.collaborators.forEach((collaborator) => {
+      // add the permission type to the Set
+      permissionTypes.add(collaborator.permission);
     });
   });
 
@@ -41,31 +46,18 @@ export const generatePermissionsCount = (data) => {
     permissionsCount[permission] = 0;
   });
 
-  // iterate through the teams again
-  data.organization.repositories.edges.forEach((repo) => {
-    // iterate through the repositories
-    // team.repositories.forEach((repo) => {
-    //   // iterate through the collaborators
-      repo.node.collaborators.edges.forEach((collaborator) => {
-        // add to the count for the permission
-        permissionsCount[collaborator.permission] += 1;
-      });
-    // });
+  // iterate through the repositories again
+  data.forEach((repo) => {
+    // iterate through the collaborators
+    repo.collaborators.forEach((collaborator) => {
+      // add to the count for the permission
+      permissionsCount[collaborator.permission] += 1;
+    });
   });
-  console.log("Permission: " + JSON.stringify(permissionsCount))
+
+  console.log("Permission: " + generateOutputString(permissionsCount));
   return permissionsCount;
 }
-export default  {generatePermissionsCount};
+export default { generatePermissionsCount, generateOutputString };
 
-import fs from 'fs';
-import { getTeams } from './sort-audit.js';
-// function testIt(){
-let response;
- fs.readFile('./response.json', 'utf8', (err, data) => {
-  if (err) throw err; 
-   
-  response = JSON.parse(data);
- const teams =  getTeams(response);
-  console.log(JSON.stringify(generatePermissionsCount(response)));
-});
-// }
+

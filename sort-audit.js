@@ -22,7 +22,7 @@ export const getTeams = (data) => {
 };
 
 export const getRepos = (data) => {  
-  console.log(JSON.stringify(data))
+  // console.log(JSON.stringify(data))
   const repoObjects = [];
   data.forEach((repo) => {
     const repoName = repo.name;

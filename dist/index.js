@@ -14470,7 +14470,7 @@ const getTeams = (data) => {
 };
 
 const getRepos = (data) => {  
-  console.log(JSON.stringify(data))
+  // console.log(JSON.stringify(data))
   const repoObjects = [];
   data.forEach((repo) => {
     const repoName = repo.name;
@@ -15419,12 +15419,77 @@ const getAllData = async(owner, token) => {
 }
 
 /* harmony default export */ const get_repository_collaborators = ((/* unused pure expression or super */ null && (getAllData)));
+;// CONCATENATED MODULE: ./step-summary-table.js
+
+
+
+const generateOutputString = async (permissions) => {
+
+  //append the key of each obect and its value to the output string
+  const permissionArray = [['Permission', 'Total']];
+  //append the key of each object and its value to the output array
+  for (var permission in permissions) {
+    permissionArray.push([permission, permissions[permission]]);
+  }
+
+  await core.summary.addHeading('Test Results')
+    .addCodeBlock(generateTestResults(), "js")
+    .addTable([
+      [{ data: 'Permission', header: true }, { data: 'Total', header: true }],
+      permissionArray
+    ])
+    .write()
+
+
+
+}
+
+//a function that takes a parameter of teams and generates a count for each permission, generate the permission type from the data that is passed in
+const generatePermissionsCount = (data) => {
+  // create a Set to hold the unique permission types
+  const permissionTypes = new Set();
+
+  // iterate through the repositories
+  data.forEach((repo) => {
+    // iterate through the collaborators
+    repo.collaborators.forEach((collaborator) => {
+      // add the permission type to the Set
+      permissionTypes.add(collaborator.permission);
+    });
+  });
+
+  // convert the Set to an array and sort it alphabetically
+  const uniquePermissions = Array.from(permissionTypes).sort();
+
+  // create an object to hold the counts
+  const permissionsCount = {};
+  uniquePermissions.forEach((permission) => {
+    permissionsCount[permission] = 0;
+  });
+
+  // iterate through the repositories again
+  data.forEach((repo) => {
+    // iterate through the collaborators
+    repo.collaborators.forEach((collaborator) => {
+      // add to the count for the permission
+      permissionsCount[collaborator.permission] += 1;
+    });
+  });
+
+  console.log("Permission: " + generateOutputString(permissionsCount));
+  return permissionsCount;
+}
+/* harmony default export */ const step_summary_table = ({ generatePermissionsCount, generateOutputString });
+
+
+
 ;// CONCATENATED MODULE: ./index.js
 
 
 
 
 const query = external_fs_.readFileSync(__nccwpck_require__.ab + "audit.gql", 'utf8');
+
 
 
 
@@ -15452,6 +15517,9 @@ async function run() {
       repoCSV(repos);
       // core.setOutput('teams', JSON.stringify(teams))
       core.setOutput('repos', JSON.stringify(repositories));
+      //run an echo command to pipe the output of generateOutputString to $GITHUB_STEP_SUMMARY
+      generateOutputString(repos);
+      
     }).catch((error) => {
       console.error(error);
       core.setFailed(error.message);

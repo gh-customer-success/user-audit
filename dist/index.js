@@ -15429,7 +15429,8 @@ const generateOutputString = async (permissions) => {
   const permissionArray = [[{ data: 'Permission', header: true }, { data: 'Total', header: true }]];
   //append the key of each object and its value to the output array
   for (var permission in permissions) {
-    permissionArray.push([permission, permissions[permission]]);
+
+    permissionArray.push([permission, permissions[permission].toString()]);
   }
   console.log(JSON.stringify(permissionArray));
   const summary = JSON.stringify(permissionArray)

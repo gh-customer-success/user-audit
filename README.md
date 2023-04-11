@@ -1,116 +1,66 @@
-# Create a JavaScript Action
-
+# GitHub User Audit 
 <p align="center">
   <a href="https://github.com/actions/javascript-action/actions"><img alt="javscript-action status" src="https://github.com/actions/javascript-action/workflows/units-test/badge.svg"></a>
 </p>
 
-Use this template to bootstrap the creation of a JavaScript action.:rocket:
+Uses the GitHub GraphQL API to run audits on users and their permissions to an organization's repositories. 
 
-This template includes tests, linting, a validation workflow, publishing, and versioning guidance.
+Generates a summary for all permissions and their count.
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+<img width="385" alt="image" src="https://user-images.githubusercontent.com/680463/231044211-0fe1f677-8317-4dcd-88b4-73610eae2bd3.png">
 
-## Create an action from this template
+An artifact is uploaded as a CSV file. This file can be analysed on most spreadsheet applications, such as Microsoft [Excel](https://www.microsoft.com/en-us/microsoft-365/excel).
 
-Click the `Use this Template` and provide the new repo details for your action
+<img width="500" alt="image" src="https://user-images.githubusercontent.com/680463/231044626-06976be7-4663-4ec5-8c3d-444f9ea2a9c3.png">
 
-## Code in Main
+Alternatively CSV files can be persisted in a NoSQL DB.
 
-Install the dependencies
 
-```bash
-npm install
-```
+## Personal Access Token (classic)
 
-Run the tests :heavy_check_mark:
+An Oganization Admin can [generate](https://github.com/settings/tokens) a token with the following permissions:
 
-```bash
-$ npm test
+<img width="426" alt="image" src="https://user-images.githubusercontent.com/680463/231043291-ce54bfc5-9d47-49b5-80cc-b317602addc7.png">
+<img width="628" alt="image" src="https://user-images.githubusercontent.com/680463/231043402-983d914b-d787-456c-891a-70f6f2106180.png">
+<img width="472" alt="image" src="https://user-images.githubusercontent.com/680463/231043457-47c8d3cc-6a9c-4f4f-b919-704d815b5316.png">
 
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
+ ```
+ repo
+ read:org 
+ read:user
+ user:email
+ ```
+
+## Using the Action
+
+The action requires 2 inputs a variable (Organization Name) and a secret (API Token)
+
+<img width="386" alt="image" src="https://user-images.githubusercontent.com/680463/231046061-b0aca50f-17cd-4550-831c-8ead2a09cd95.png">
+
+Pass these values in your workflow file:
+
+```yml
+
 ...
+steps:
+  -
+    name: run audit
+    uses: gh-customer-success/github-user-audit@main
+    with:
+      api_token: ${{ secrets.MY_SECRET_TOEKN }}
+      owner: ${{ vars.MY_ORG_NAME }}
+    id: audit
+ ...
+ 
 ```
 
-## Change action.yml
+When the run is successful  you should see a Job Summary with the total number of users for each `permission` and an artifact that can be downloaded.
 
-The action.yml defines the inputs and output for your action.
+<img width="568" alt="image" src="https://user-images.githubusercontent.com/680463/231046930-7e09e29c-07c0-4d2b-9866-99ec82dfffc1.png">
 
-Update the action.yml with your name, description, inputs and outputs for your action.
 
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
 
-## Change the Code
 
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
 
-```javascript
-const core = require('@actions/core');
-...
 
-async function run() {
-  try {
-      ...
-  }
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
 
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Package for distribution
-
-GitHub Actions will run the entry point from the action.yml. Packaging assembles the code into one file that can be checked in to Git, enabling fast and reliable execution and preventing the need to check in node_modules.
-
-Actions are run from GitHub repos.  Packaging the action will create a packaged action in the dist folder.
-
-Run prepare
-
-```bash
-npm run prepare
-```
-
-Since the packaged index.js is run from the dist folder.
-
-```bash
-git add dist
-```
-
-## Create a release branch
-
-Users shouldn't consume the action from master since that would be latest code and actions can break compatibility between major versions.
-
-Checkin to the v1 release branch
-
-```bash
-git checkout -b v1
-git commit -a -m "v1 release"
-```
-
-```bash
-git push origin v1
-```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket:
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Usage
-
-You can now consume the action by referencing the v1 branch
-
-```yaml
-uses: actions/javascript-action@v1
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/javascript-action/actions) for runs of this action! :rocket:

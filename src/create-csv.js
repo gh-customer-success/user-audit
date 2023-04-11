@@ -68,6 +68,6 @@ export const uploadCSV = async (file) => {
         // Set the workflow status to failed if an error occurs
         core.setFailed(error.message);
     }
-}; 
+};
 
 export default { teamsCSV, repoCSV, uploadCSV };

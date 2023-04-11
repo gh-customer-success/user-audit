@@ -1,4 +1,4 @@
-import { teamsCSV } from '../create-csv';
+import { teamsCSV } from '../src/create-csv.js';
 import { jest } from '@jest/globals';
 import fs from 'fs';
 

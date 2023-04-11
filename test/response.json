@@ -1,0 +1,96 @@
+{
+      "organization": {
+        "teams": {
+          "nodes": [
+            {
+              "name": "avocado security",
+              "updatedAt": "2022-02-13T05:41:31Z",
+              "repositories": {
+                "edges": [
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "repo-secure"
+                    }
+                  },
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "repo-secure-example"
+                    }
+                  },
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "Private-Repo"
+                    }
+                  },
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "WebGoat"
+                    }
+                  },
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "AVerySecureRepo"
+                    }
+                  },
+                  {
+                    "permission": "READ",
+                    "node": {
+                      "name": "my-secure-repo"
+                    }
+                  }
+                ]
+              },
+              "members": {
+                "edges": [
+                  {
+                    "node": {
+                      "login": "userA",
+                      "name": "Joe User"
+                    }
+                  },
+                  {
+                    "node": {
+                      "login": "userB",
+                      "name": "Jane User"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "name": "some other team",
+              "updatedAt": "2023-02-03T02:51:02Z",
+              "repositories": {
+                "edges": [
+                  {
+                    "permission": "WRITE",
+                    "node": {
+                      "name": "repo-secure"
+                    }
+                  }
+                ]
+              },
+              "members": {
+                "edges": [
+                  {
+                    "node": {
+                      "login": "userA",
+                      "name": "Joe User"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "repositories": 
+          [{"name":"repo-secure","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"repo-secure-example","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"Private-Repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"WebGoat","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"AVerySecureRepo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"my-secure-repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"ADMIN"}]}]
+        
+      }
+    }
+  

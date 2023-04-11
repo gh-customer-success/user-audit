@@ -14441,13 +14441,7 @@ var __webpack_exports__ = {};
 
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(2186);
-// EXTERNAL MODULE: ./node_modules/@octokit/graphql/dist-node/index.js
-var dist_node = __nccwpck_require__(8467);
-// EXTERNAL MODULE: external "fs"
-var external_fs_ = __nccwpck_require__(5747);
-// EXTERNAL MODULE: external "path"
-var external_path_ = __nccwpck_require__(5622);
-;// CONCATENATED MODULE: ./sort-audit.js
+;// CONCATENATED MODULE: ./src/sort-audit.js
 const getTeams = (data) => {
   const teamObjects = [];
 
@@ -14471,15 +14465,14 @@ const getTeams = (data) => {
   return teamObjects;
 };
 
-const getRepos = (response) => {
-  const data = response;
+const getRepos = (data) => {
+  // console.log(JSON.stringify(data))
   const repoObjects = [];
+  data.forEach((repo) => {
+    const repoName = repo.name;
 
-  data.organization.repositories.edges.forEach((repo) => {
-    const repoName = repo.node.name;
-
-    repo.node.collaborators.edges.forEach((collaborator) => {
-      const collaboratorName = collaborator.node.login;
+    repo.collaborators.forEach((collaborator) => {
+      const collaboratorName = collaborator.login;
       const collaboratorPermissions = collaborator.permission;
 
       const repoObject = {
@@ -14491,11 +14484,12 @@ const getRepos = (response) => {
       repoObjects.push(repoObject);
     });
   });
-
   return repoObjects;
 };
 
 /* harmony default export */ const sort_audit = ({ getTeams, getRepos });
+// EXTERNAL MODULE: external "fs"
+var external_fs_ = __nccwpck_require__(5747);
 // EXTERNAL MODULE: external "stream"
 var external_stream_ = __nccwpck_require__(2413);
 ;// CONCATENATED MODULE: ./node_modules/csv-stringify/lib/api/CsvError.js
@@ -15218,7 +15212,7 @@ const stringify = function(){
 
 // EXTERNAL MODULE: ./node_modules/@actions/artifact/lib/artifact-client.js
 var artifact_client = __nccwpck_require__(2605);
-;// CONCATENATED MODULE: ./create-csv.js
+;// CONCATENATED MODULE: ./src/create-csv.js
 
 // Import the fs module for working with the file system
 
@@ -15289,15 +15283,207 @@ const uploadCSV = async (file) => {
         // Set the workflow status to failed if an error occurs
         core.setFailed(error.message);
     }
-}; 
+};
 
 /* harmony default export */ const create_csv = ({ teamsCSV, repoCSV, uploadCSV });
-;// CONCATENATED MODULE: ./index.js
+// EXTERNAL MODULE: ./node_modules/@octokit/graphql/dist-node/index.js
+var dist_node = __nccwpck_require__(8467);
+;// CONCATENATED MODULE: ./src/get-repository-collaborators.js
+
+
+// Function to retrieve all the repositories and their collaborators in an organization
+const getAllData = async (owner, token) => {
+  // Create a GraphQL client with the provided token
+  const graphqlWithAuth = dist_node/* graphql.defaults */.BX.defaults({
+    headers: {
+      authorization: `token ${token}`,
+    },
+  });
+
+  let repositories = [];
+  let repositoriesCursor = null;
+
+  // Paginate through the repositories and their collaborators
+  do {
+    // Query the organization's repositories with pagination
+    const repositoriesQuery = await graphqlWithAuth({
+      query: `
+        query ($owner: String!, $cursor: String) {
+          organization(login: $owner) {
+            repositories(first: 100 after: $cursor) {
+              pageInfo {
+                hasNextPage
+                endCursor
+              }
+              edges {
+                node {
+                  name
+                  collaborators(first: 100) {
+                    pageInfo {
+                      hasNextPage
+                      endCursor
+                    }
+                    edges {
+                      permission
+                      node {
+                        login
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      `,
+      owner,
+      cursor: repositoriesCursor,
+    });
+
+    // Extract the repositories and their collaborators from the query result
+    const { repositories: repoData } = repositoriesQuery.organization;
+
+    // Map over the repositories and their collaborators to extract the relevant data
+    const repositoriesWithCollaborators = repoData.edges.map((edge) => {
+      const { name, collaborators } = edge.node;
+      const collabPermissions = [];
+
+      // Recursively retrieve all the collaborators for a repository with pagination
+      async function getCollaborators(cursor) {
+        const collaboratorsQuery = await graphqlWithAuth({
+          query: `
+            query ($owner: String!, $repo: String!, $cursor: String) {
+              repository(owner: $owner, name: $repo) {
+                collaborators(first: 100 after: $cursor) {
+                  pageInfo {
+                    hasNextPage
+                    endCursor
+                  }
+                  edges {
+                    permission
+                    node {
+                      login
+                    }
+                  }
+                }
+              }
+            }
+          `,
+          owner,
+          repo: name,
+          cursor,
+        });
+
+        const { collaborators: collabData } = collaboratorsQuery.repository;
+
+        // Extract the collaborators and their permissions from the query result
+        collabData.edges.forEach((collab) => {
+          const { permission, node } = collab;
+          collabPermissions.push({ login: node.login, permission });
+        });
+
+        // Recursively retrieve the next page of collaborators if there are more
+        if (collabData.pageInfo.hasNextPage) {
+          await getCollaborators(collabData.pageInfo.endCursor);
+        }
+      }
+
+      // Extract the collaborators and their permissions from the query result
+      collaborators.edges.forEach((collab) => {
+        const { permission, node } = collab;
+        collabPermissions.push({ login: node.login, permission });
+      });
+
+      // Recursively retrieve the next page of collaborators if there are more
+      if (collaborators.pageInfo.hasNextPage) {
+        getCollaborators(collaborators.pageInfo.endCursor);
+      }
+
+      // Return an object with the repository name and its collaborators and permissions
+      return { name, collaborators: collabPermissions };
+    });
+
+    // Concatenate the repositories and their collaborators to the overall list
+    repositories = repositories.concat(repositoriesWithCollaborators);
+
+    // Update the cursor for the next page of repositories
+    repositoriesCursor = repoData.pageInfo.endCursor;
+  } while (repositoriesCursor !== null);
+
+  // Return an object with the list of repositories and their collaborators and permissions
+  return { repositories };
+}
+
+/* harmony default export */ const get_repository_collaborators = ((/* unused pure expression or super */ null && (getAllData)));
+;// CONCATENATED MODULE: ./src/step-summary-table.js
 
 
 
+const generateOutputString = async (permissions) => {
 
-const query = external_fs_.readFileSync(__nccwpck_require__.ab + "audit.gql", 'utf8');
+  //append the key of each obect and its value to the output string
+  const permissionArray = [[{ data: 'Permission  ', header: true }, { data: 'Total Users  ', header: true }]];
+  //append the key of each object and its value to the output array
+  for (var permission in permissions) {
+
+    permissionArray.push([permission, permissions[permission].toString()]);
+  }
+  console.log(JSON.stringify(permissionArray));
+  const summary = JSON.stringify(permissionArray)
+  await core.summary.addHeading('Audit Summary')
+    .addTable(
+      permissionArray
+    )
+    .write()
+}
+
+//a function that takes a parameter of teams and generates a count for each permission, generate the permission type from the data that is passed in
+const generatePermissionsCount = (data) => {
+  // create a Set to hold the unique permission types
+  const permissionTypes = new Set();
+
+  // iterate through the repositories
+  data.forEach((repo) => {
+    // iterate through the collaborators
+    repo.collaborators.forEach((collaborator) => {
+      // add the permission type to the Set
+      permissionTypes.add(collaborator.permission);
+    });
+  });
+
+  // convert the Set to an array and sort it alphabetically
+  const uniquePermissions = Array.from(permissionTypes).sort();
+
+  // create an object to hold the counts
+  const permissionsCount = {};
+  uniquePermissions.forEach((permission) => {
+    permissionsCount[permission] = 0;
+  });
+
+  // iterate through the repositories again
+  data.forEach((repo) => {
+    // iterate through the collaborators
+    repo.collaborators.forEach((collaborator) => {
+      // add to the count for the permission
+      permissionsCount[collaborator.permission] += 1;
+    });
+  });
+
+   generateOutputString(permissionsCount);
+  return permissionsCount;
+}
+/* harmony default export */ const step_summary_table = ({ generatePermissionsCount, generateOutputString });
+
+// import { getRepos } from './sort-audit.js';
+// let data = ` [{"name":"repo-secure","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"repo-secure-example","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"Private-Repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"WebGoat","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"AVerySecureRepo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"my-secure-repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"ADMIN"}]}]
+//         `
+//   let response = JSON.parse(data);
+//   const teams =  getRepos(response);
+//   console.log(JSON.stringify(generatePermissionsCount(response)));
+;// CONCATENATED MODULE: ./src/index.js
+
+
+
 
 
 // most @actions toolkit packages have async methods
@@ -15306,30 +15492,32 @@ async function run() {
     //take the required inputs repo and owner and execute the graphql query audit.gql
     const repo = core.getInput('repo');
     const owner = core.getInput('owner');
-    const token = core.getInput('api_token'); 
+    const token = core.getInput('api_token');
 
-    const octokit = dist_node/* graphql.defaults */.BX.defaults({
-      headers: {
-        authorization: `token ${token} `,
-      },
-    }); 
-    console.log(`query: ${query}`);
-    const data = await octokit(query, {
-      owner,
-      repo,
-      affiliation: 'ALL',
-    });
- 
     //call the getTeams function and pass in data
-    const teams = getTeams(data); 
-    //call the getRepos function and pass in data
-    const repos = getRepos(data);
+    //not implemented for now
+    // const teams = getTeams(data); 
+    //call the getRepos function and pass in data 
 
-    //create the csv and upload it as an artifact
-    teamsCSV(teams);
-    repoCSV(repos); 
-    core.setOutput('teams', JSON.stringify(teams))
-    core.setOutput('repos', JSON.stringify(repos));
+    getAllData(owner, token).then(({ repositories }) => {
+      console.log(JSON.stringify(repositories) + "\n");
+
+
+      //create the csv and upload it as an artifact
+      //not implemented for now
+      // teamsCSV(teams);
+      const repos = getRepos(repositories);
+      repoCSV(repos);
+      // core.setOutput('teams', JSON.stringify(teams))
+      core.setOutput('repos', JSON.stringify(repositories));
+      //run an echo command to pipe the output of generateOutputString to $GITHUB_STEP_SUMMARY
+      generatePermissionsCount(repositories);
+
+    }).catch((error) => {
+      console.error(error);
+      core.setFailed(error.message);
+    });
+
   } catch (error) {
     core.setFailed(error.message);
   }

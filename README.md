@@ -9,9 +9,9 @@ Generates a summary for all permissions and their count.
 
 <img width="385" alt="image" src="https://user-images.githubusercontent.com/680463/231044211-0fe1f677-8317-4dcd-88b4-73610eae2bd3.png">
 
-An artifact is uploaded as a CSV file. This file can be analysed on most spreadsheet applications, such as Microsoft [Excel](https://www.microsoft.com/en-us/microsoft-365/excel).
+An artifact is uploaded as a CSV file. This format is supported by most spreadsheet applications, such as Microsoft [Excel](https://www.microsoft.com/en-us/microsoft-365/excel).
 
-<img width="500" alt="image" src="https://user-images.githubusercontent.com/680463/231044626-06976be7-4663-4ec5-8c3d-444f9ea2a9c3.png">
+<img width="768" alt="image" src="https://user-images.githubusercontent.com/680463/231049038-20481116-de7a-42e7-8f77-517ac11a1709.png">
 
 Alternatively CSV files can be persisted in a NoSQL DB.
 
@@ -33,7 +33,7 @@ An Oganization Admin can [generate](https://github.com/settings/tokens) a token 
 
 ## Using the Action
 
-The action requires 2 inputs a variable (Organization Name) and a secret (API Token)
+This Action requires 2 inputs: a [variable](https://docs.github.com/en/actions/learn-github-actions/variables#creating-configuration-variables-for-a-repository) (Organization Name) and a secret (API Token)
 
 <img width="386" alt="image" src="https://user-images.githubusercontent.com/680463/231046061-b0aca50f-17cd-4550-831c-8ead2a09cd95.png">
 
@@ -54,7 +54,7 @@ steps:
  
 ```
 
-When the run is successful  you should see a Job Summary with the total number of users for each `permission` and an artifact that can be downloaded.
+When the run is successful  you should see a Job Summary with the total number of users for each `permission` and an artifact that can be downloaded by clicking on its name.
 
 <img width="568" alt="image" src="https://user-images.githubusercontent.com/680463/231046930-7e09e29c-07c0-4d2b-9866-99ec82dfffc1.png">
 

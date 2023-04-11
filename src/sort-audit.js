@@ -21,7 +21,7 @@ export const getTeams = (data) => {
   return teamObjects;
 };
 
-export const getRepos = (data) => {  
+export const getRepos = (data) => {
   // console.log(JSON.stringify(data))
   const repoObjects = [];
   data.forEach((repo) => {
@@ -43,6 +43,4 @@ export const getRepos = (data) => {
   return repoObjects;
 };
 
-// const data = '[{"name":"repo-secure","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"repo-secure-example","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"Private-Repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"WebGoat","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"AVerySecureRepo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"my-secure-repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"ADMIN"}]}]';
-// console.log(JSON.stringify(getRepos(data)))
 export default { getTeams, getRepos };

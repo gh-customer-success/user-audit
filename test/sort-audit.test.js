@@ -1,4 +1,4 @@
-import { getTeams, getRepos } from '../sort-audit';
+import { getRepos } from '../src/sort-audit.js';
 import response from '../response.json';
 
 // describe('getTeams', () => {

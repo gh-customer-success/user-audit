@@ -1,7 +1,7 @@
 import { graphql } from '@octokit/graphql';
 
 // Function to retrieve all the repositories and their collaborators in an organization
-export const getAllData = async(owner, token) => {
+export const getAllData = async (owner, token) => {
   // Create a GraphQL client with the provided token
   const graphqlWithAuth = graphql.defaults({
     headers: {
@@ -105,7 +105,7 @@ export const getAllData = async(owner, token) => {
 
       // Recursively retrieve the next page of collaborators if there are more
       if (collaborators.pageInfo.hasNextPage) {
-         getCollaborators(collaborators.pageInfo.endCursor);
+        getCollaborators(collaborators.pageInfo.endCursor);
       }
 
       // Return an object with the repository name and its collaborators and permissions

@@ -14441,11 +14441,7 @@ var __webpack_exports__ = {};
 
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(2186);
-// EXTERNAL MODULE: external "fs"
-var external_fs_ = __nccwpck_require__(5747);
-// EXTERNAL MODULE: external "path"
-var external_path_ = __nccwpck_require__(5622);
-;// CONCATENATED MODULE: ./sort-audit.js
+;// CONCATENATED MODULE: ./src/sort-audit.js
 const getTeams = (data) => {
   const teamObjects = [];
 
@@ -14469,7 +14465,7 @@ const getTeams = (data) => {
   return teamObjects;
 };
 
-const getRepos = (data) => {  
+const getRepos = (data) => {
   // console.log(JSON.stringify(data))
   const repoObjects = [];
   data.forEach((repo) => {
@@ -14491,9 +14487,9 @@ const getRepos = (data) => {
   return repoObjects;
 };
 
-// const data = '[{"name":"repo-secure","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"repo-secure-example","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"Private-Repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"WebGoat","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"AVerySecureRepo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"READ"}]},{"name":"my-secure-repo","collaborators":[{"login":"userA","permission":"ADMIN"},{"login":"userB","permission":"ADMIN"}]}]';
-// console.log(JSON.stringify(getRepos(data)))
 /* harmony default export */ const sort_audit = ({ getTeams, getRepos });
+// EXTERNAL MODULE: external "fs"
+var external_fs_ = __nccwpck_require__(5747);
 // EXTERNAL MODULE: external "stream"
 var external_stream_ = __nccwpck_require__(2413);
 ;// CONCATENATED MODULE: ./node_modules/csv-stringify/lib/api/CsvError.js
@@ -15216,7 +15212,7 @@ const stringify = function(){
 
 // EXTERNAL MODULE: ./node_modules/@actions/artifact/lib/artifact-client.js
 var artifact_client = __nccwpck_require__(2605);
-;// CONCATENATED MODULE: ./create-csv.js
+;// CONCATENATED MODULE: ./src/create-csv.js
 
 // Import the fs module for working with the file system
 
@@ -15287,16 +15283,16 @@ const uploadCSV = async (file) => {
         // Set the workflow status to failed if an error occurs
         core.setFailed(error.message);
     }
-}; 
+};
 
 /* harmony default export */ const create_csv = ({ teamsCSV, repoCSV, uploadCSV });
 // EXTERNAL MODULE: ./node_modules/@octokit/graphql/dist-node/index.js
 var dist_node = __nccwpck_require__(8467);
-;// CONCATENATED MODULE: ./get-repository-collaborators.js
+;// CONCATENATED MODULE: ./src/get-repository-collaborators.js
 
 
 // Function to retrieve all the repositories and their collaborators in an organization
-const getAllData = async(owner, token) => {
+const getAllData = async (owner, token) => {
   // Create a GraphQL client with the provided token
   const graphqlWithAuth = dist_node/* graphql.defaults */.BX.defaults({
     headers: {
@@ -15400,7 +15396,7 @@ const getAllData = async(owner, token) => {
 
       // Recursively retrieve the next page of collaborators if there are more
       if (collaborators.pageInfo.hasNextPage) {
-         getCollaborators(collaborators.pageInfo.endCursor);
+        getCollaborators(collaborators.pageInfo.endCursor);
       }
 
       // Return an object with the repository name and its collaborators and permissions
@@ -15419,7 +15415,7 @@ const getAllData = async(owner, token) => {
 }
 
 /* harmony default export */ const get_repository_collaborators = ((/* unused pure expression or super */ null && (getAllData)));
-;// CONCATENATED MODULE: ./step-summary-table.js
+;// CONCATENATED MODULE: ./src/step-summary-table.js
 
 
 
@@ -15484,12 +15480,8 @@ const generatePermissionsCount = (data) => {
 //   let response = JSON.parse(data);
 //   const teams =  getRepos(response);
 //   console.log(JSON.stringify(generatePermissionsCount(response)));
-;// CONCATENATED MODULE: ./index.js
+;// CONCATENATED MODULE: ./src/index.js
 
-
-
-
-const query = external_fs_.readFileSync(__nccwpck_require__.ab + "audit.gql", 'utf8');
 
 
 
@@ -15502,9 +15494,8 @@ async function run() {
     const owner = core.getInput('owner');
     const token = core.getInput('api_token');
 
-
-
     //call the getTeams function and pass in data
+    //not implemented for now
     // const teams = getTeams(data); 
     //call the getRepos function and pass in data 
 
@@ -15513,6 +15504,7 @@ async function run() {
 
 
       //create the csv and upload it as an artifact
+      //not implemented for now
       // teamsCSV(teams);
       const repos = getRepos(repositories);
       repoCSV(repos);
@@ -15520,7 +15512,7 @@ async function run() {
       core.setOutput('repos', JSON.stringify(repositories));
       //run an echo command to pipe the output of generateOutputString to $GITHUB_STEP_SUMMARY
       generatePermissionsCount(repositories);
-      
+
     }).catch((error) => {
       console.error(error);
       core.setFailed(error.message);

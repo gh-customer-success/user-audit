@@ -1,6 +1,6 @@
 {
   "name": "github-user-audit",
-  "version": "1.0.0",
+  "version": "2.5.0",
   "description": "Uses GitHub GraphQL to audit users permissions on an organization's repositories. Generates a summary and a csv file.",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "Actions",
     "JavaScript"
   ],
-  "author": "",
+  "author": "Rudy Sarmiento",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/gh-customer-success/github-user-audit/issues"

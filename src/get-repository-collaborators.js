@@ -36,6 +36,8 @@ export const getAllData = async (owner, token) => {
                       permission
                       node {
                         login
+                        name
+                        email
                       }
                     }
                   }
@@ -72,6 +74,8 @@ export const getAllData = async (owner, token) => {
                     permission
                     node {
                       login
+                      name
+                      email
                     }
                   }
                 }

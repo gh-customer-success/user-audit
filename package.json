@@ -27,7 +27,7 @@
   "dependencies": {
     "@actions/artifact": "^1.1.1",
     "@actions/core": "^1.10.0",
-    "@octokit/graphql": "^5.0.5",
+    "@octokit/graphql": "^6.0.1",
     "csv-stringify": "^6.3.0",
     "octokit": "^2.0.14"
   },
